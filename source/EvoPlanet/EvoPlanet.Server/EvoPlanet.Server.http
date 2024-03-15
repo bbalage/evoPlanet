@@ -1,0 +1,6 @@
+@EvoPlanet.Server_HostAddress = http://localhost:5237
+
+GET {{EvoPlanet.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
