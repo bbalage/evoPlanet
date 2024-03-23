@@ -38,8 +38,8 @@ export class AppComponent implements OnInit {
   getPlanet() {
     this.http.get<Planet>('https://localhost:7081/api/Planet').subscribe(
       (result) => {
-        //this.planet = result;
-        console.log(result);
+        this.planet = result;
+        console.log(this.planet.Name);
       },
       (error) => {
         console.error(error);

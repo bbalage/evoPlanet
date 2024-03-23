@@ -18,7 +18,7 @@ namespace EvoPlanet.Server
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("https://localhost:4200","https://localhost:7081").AllowAnyHeader().AllowAnyMethod();
+                                      policy.WithOrigins("http://localhost:4200","http://localhost:7081").AllowAnyHeader().AllowAnyMethod();
                                   });
             });
 
@@ -50,12 +50,17 @@ namespace EvoPlanet.Server
             });
             */
             //UseCors must be placed after "UseRouting", but before "UseAuthorization"
+            /*
             app.UseCors(
                 options =>
                 {
-                    options.WithOrigins("https://localhost:7081");
+                    // options.WithOrigins(https://localhost:7081);
+                    options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 }
             );              
+            */
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
             app.UseAuthorization();

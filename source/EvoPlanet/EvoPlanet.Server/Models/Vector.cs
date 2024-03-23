@@ -1,7 +1,9 @@
 ﻿using System.Text.Json.Serialization;
+using System.Numerics;
 
 namespace EvoPlanet.Server.Models
 {
+
     public class Vector
     {
         [JsonPropertyName("X")]
@@ -13,5 +15,6 @@ namespace EvoPlanet.Server.Models
             x = X;
             y = Y;
         }
+        //System.Numerics.Vector v;
     }
 }
