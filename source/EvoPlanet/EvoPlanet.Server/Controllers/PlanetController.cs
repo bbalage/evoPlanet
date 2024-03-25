@@ -4,25 +4,25 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
+
 namespace EvoPlanet.Server.Controllers
 {
-    //[System.Web.Http.Cors.DisableCors]
-    [EnableCors]
+    
     [ApiController]
     [Route("api/[controller]")]
     public class PlanetController : ControllerBase
     {
-        private readonly PlanetService _servcie;
+        private readonly PlanetService _service;
         public PlanetController(PlanetService Pservice)
         {
-            _servcie = Pservice;
+            _service = Pservice;
         }
 
-        [DisableCors]
+        [EnableCors("_myAllowSpecificOrigins")]
         [HttpGet(Name ="GetPlanet")]
         public IActionResult GetPlanet()
         {
-            Planet planet = _servcie.PlanetResult();
+            Planet planet = _service.PlanetResult();
             return Ok(planet);
         }
 
@@ -31,7 +31,7 @@ namespace EvoPlanet.Server.Controllers
         {
             //Use html body later!!!!
             
-            _servcie.SaveData();
+            _service.SaveData();
             return Ok();
         }
     }
