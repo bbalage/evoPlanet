@@ -4,35 +4,59 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 
-
 namespace EvoPlanet.Server.Controllers
 {
-    
     [ApiController]
     [Route("api/[controller]")]
     public class PlanetController : ControllerBase
     {
-        private readonly PlanetService _service;
-        public PlanetController(PlanetService Pservice)
+        private readonly IPlanetService _planetService;
+
+        public PlanetController(IPlanetService planetService)
         {
-            _service = Pservice;
+            _planetService = planetService;
         }
 
-        [EnableCors("_myAllowSpecificOrigins")]
-        [HttpGet(Name ="GetPlanet")]
-        public IActionResult GetPlanet()
+        [HttpGet]
+        public IActionResult GetPlanets()
         {
-            Planet planet = _service.PlanetResult();
-            return Ok(planet);
+            var planets = _planetService.GetAllPlanets();
+            return Ok(planets);
         }
 
-        [HttpPost("WritePlanetData")]
-        public IActionResult WritePlanetData()
+        [HttpPost]
+        public IActionResult AddPlanet(Planet newPlanet)
         {
-            //Use html body later!!!!
-            
-            _service.SaveData();
+            _planetService.AddPlanet(newPlanet);
             return Ok();
+        }
+
+        [HttpPut("{planetName}")]
+        public IActionResult UpdatePlanet(string planetName, Planet updatedPlanet)
+        {
+            try
+            {
+                _planetService.UpdatePlanet(planetName, updatedPlanet);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [HttpDelete("{planetName}")]
+        public IActionResult DeletePlanet(string planetName)
+        {
+            try
+            {
+                _planetService.DeletePlanet(planetName);
+                return Ok();
+            }
+            catch (ArgumentException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }
