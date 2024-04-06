@@ -27,7 +27,7 @@ namespace EvoPlanet.Server
             builder.Services.AddSingleton<PlanetService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            //builder.Services.AddSwaggerGen();
 
             builder.Services.AddCors();
             var app = builder.Build();
@@ -36,12 +36,13 @@ namespace EvoPlanet.Server
             app.UseStaticFiles();
 
             // Configure the HTTP request pipeline.
+            /*
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
+            */
             app.UseRouting();
             /*
             app.UseCors(options =>

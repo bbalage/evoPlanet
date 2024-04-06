@@ -1,4 +1,9 @@
-import { Observable } from "rxjs";
+//Waiting for backend to adapt the vector class
+export interface Vector
+{
+  X: number;
+  Y: number;
+}
 
 export interface Planet
 {
