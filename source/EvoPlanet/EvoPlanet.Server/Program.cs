@@ -24,7 +24,8 @@ namespace EvoPlanet.Server
 
             // Add services to the container.
             builder.Services.AddControllers();
-            builder.Services.AddSingleton<PlanetService>();
+            builder.Services.AddSingleton<ICelestialBodyService,CelestialBodyService>();
+            builder.Services.AddSingleton<ISolarSystemService, SolarSystemService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
