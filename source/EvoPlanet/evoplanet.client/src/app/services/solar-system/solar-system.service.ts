@@ -12,6 +12,14 @@ export class SolarSystemService {
 
   constructor(private http: HttpClient) { }
 
+  //TODO: make RESTAPI call using this:
+  /*
+getSolarSystem(): Observable<PlanetSystem> {
+  return this.http.get<PlanetSystem>('localthost...');
+}
+*/
+
+
   getSolarSystem(): PlanetSystem {
     this.solarSystem.Planets = [];
     this.solarSystem.Planets?.push({ Name: 'Jupiter', PX: 0, PY: 0, VX: 0, VY: 0, Radius: 100, Mass: 500 });
@@ -22,11 +30,5 @@ export class SolarSystemService {
 
     return this.solarSystem;
   }
-
-  /*
-  getSolarSystem(): Observable<PlanetSystem> {
-    return this.http.get<PlanetSystem>('localthost...');
-  }
-  */
 
 }

@@ -1,4 +1,4 @@
-//Waiting for backend to adapt the vector class
+//TODO: Waiting for backend to adapt the vector class
 export interface Vector
 {
   X: number;
