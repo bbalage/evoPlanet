@@ -1,18 +1,25 @@
 ﻿using System.IO;
+using System.Reflection;
 
 namespace EvoPlanet.Server.Models
 {
     public static class DataBase
     {
-        //Planet object return value maybe????
+        private static string _defaultPath;
+
+        static DataBase()
+        {
+            _defaultPath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)!;
+        }
+
         public static string ReadData(string filename)
         {
-            return File.ReadAllText(filename);
+            return File.ReadAllText(Path.Combine(_defaultPath, filename));
         }
 
         public static void SaveData(string filename, string data)
         {
-            File.WriteAllText(filename, data);
+            File.WriteAllText(Path.Combine(_defaultPath, filename), data);
         }
     }
 }
