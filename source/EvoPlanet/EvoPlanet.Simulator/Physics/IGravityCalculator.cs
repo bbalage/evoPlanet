@@ -3,6 +3,7 @@
    ------------------------------------------------------------------------------------------------- */
 
 using EvoPlanet.Simulator.Celestial;
+using MathNet.Numerics.LinearAlgebra;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,14 +12,8 @@ using System.Threading.Tasks;
 
 namespace EvoPlanet.Simulator.Simulator
 {
-    public class CollisionDetector
+    public interface IGravityCalculator
     {
-        public CollisionDetector() { }
-
-        public bool IsColliding(CelestialBody body1, CelestialBody body2)
-        {
-            var distanceOfCenters = (body2.Position - body1.Position).L2Norm();
-            return distanceOfCenters < body1.Radius + body2.Radius;
-        }
+        public Vector<double> CalcForce(CelestialBody body1, CelestialBody body2);
     }
 }

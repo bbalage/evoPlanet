@@ -1,24 +1,29 @@
 ﻿/* -------------------------------------------------------------------------------------------------
    Copyright (C) Siemens Healthcare GmbH 2024, All rights reserved. Restricted.
    ------------------------------------------------------------------------------------------------- */
-
-using EvoPlanet.Simulator.Celestial;
+   
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EvoPlanet.Simulator.Celestial;
+using MathNet.Numerics.LinearAlgebra;
+
 
 namespace EvoPlanet.Simulator.Simulator
 {
-    public class CollisionDetector
+    internal class GravityCalculatorImpl : IGravityCalculator
     {
-        public CollisionDetector() { }
+        public GravityCalculatorImpl(double G) { this.G = G; }
 
-        public bool IsColliding(CelestialBody body1, CelestialBody body2)
+        public Vector<double> CalcForce(CelestialBody body1, CelestialBody body2)
         {
-            var distanceOfCenters = (body2.Position - body1.Position).L2Norm();
-            return distanceOfCenters < body1.Radius + body2.Radius;
+            var r = body2.Position - body1.Position;
+            var force = -(G * body1.Mass * body2.Mass) * r / (Math.Pow(r.Norm(2), 3));
+            return force;
         }
+
+        private double G;
     }
 }

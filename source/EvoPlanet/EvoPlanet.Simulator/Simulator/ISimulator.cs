@@ -11,14 +11,8 @@ using System.Threading.Tasks;
 
 namespace EvoPlanet.Simulator.Simulator
 {
-    public class CollisionDetector
+    public interface ISimulator
     {
-        public CollisionDetector() { }
-
-        public bool IsColliding(CelestialBody body1, CelestialBody body2)
-        {
-            var distanceOfCenters = (body2.Position - body1.Position).L2Norm();
-            return distanceOfCenters < body1.Radius + body2.Radius;
-        }
+        public void Simulate(SolarSystem solarSystem, double seconds);
     }
 }

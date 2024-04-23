@@ -23,6 +23,7 @@ namespace sdk.SimulatorConsole.Simulator
         [Test]
         public void NonCollidingBodies_NotColliding()
         {
+            // Arrange
             var body1 = new CelestialBody(
                 Vector<double>.Build.DenseOfArray(new double[] { 1.0, 10.0 }),
                 Vector<double>.Build.DenseOfArray(new double[] { 1.0, 10.0 }),
@@ -35,9 +36,57 @@ namespace sdk.SimulatorConsole.Simulator
                 100);
             var collisionDetector = new CollisionDetector();
 
+            // Act
             bool isColliding = collisionDetector.IsColliding(body1, body2);
 
+            // Assert
+            Assert.That(isColliding, Is.False);
+        }
+
+        [Test]
+        public void CollidingBodies_Colliding()
+        {
+            // Arrange
+            var body1 = new CelestialBody(
+                Vector<double>.Build.DenseOfArray(new double[] { 1.0, 10.0 }),
+                Vector<double>.Build.DenseOfArray(new double[] { 1.0, 10.0 }),
+                1000,
+                100);
+            var body2 = new CelestialBody(
+                Vector<double>.Build.DenseOfArray(new double[] { 10.0, 10.0 }),
+                Vector<double>.Build.DenseOfArray(new double[] { 1.0, 10.0 }),
+                1000,
+                100);
+            var collisionDetector = new CollisionDetector();
+
+            // Act
+            bool isColliding = collisionDetector.IsColliding(body1, body2);
+
+            // Assert
             Assert.That(isColliding, Is.True);
+        }
+
+        [Test]
+        public void EdgeCase()
+        {
+            // Arrange
+            var body1 = new CelestialBody(
+                Vector<double>.Build.DenseOfArray(new double[] { 1.0, 10.0 }),
+                Vector<double>.Build.DenseOfArray(new double[] { 1.0, 10.0 }),
+                1000,
+                5);
+            var body2 = new CelestialBody(
+                Vector<double>.Build.DenseOfArray(new double[] { 10.0, 10.0 }),
+                Vector<double>.Build.DenseOfArray(new double[] { 1.0, 10.0 }),
+                1000,
+                4);
+            var collisionDetector = new CollisionDetector();
+
+            // Act
+            bool isColliding = collisionDetector.IsColliding(body1, body2);
+
+            // Assert
+            Assert.That(isColliding, Is.False);
         }
     }
 }
