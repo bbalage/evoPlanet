@@ -51,10 +51,11 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPost]
-        public IActionResult AddCelestialBody([FromBody] CelestialBody newCelestialBody)
+        public async Task<IActionResult> AddCelestialBody([FromBody] CelestialBody newCelestialBody)
         {
-            _celestialBodyService.AddCelestialBody(newCelestialBody);
-            return Ok(_celestialBodyService.CreateAsync(newCelestialBody));
+            //_celestialBodyService.AddCelestialBody(newCelestialBody);
+            CelestialBody cBody = await _celestialBodyService.CreateAsync(newCelestialBody);
+            return Ok(cBody);
             //return Ok();
 
         }
