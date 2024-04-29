@@ -1,6 +1,7 @@
 # evoPlanet
 
-The evoPlanet project's GitHub Pages is available [here](https://bbalage.github.io/evoPlanet/).
+
+The evoPlanet project's GitHub repository can be found [here](https://github.com/bbalage/evoPlanet/tree/pages).
 
 The project is about creating a web based orbital simulator, where users can create arbitrary systems of stellar objects, and can make them move according to the Newtonian rules of gravity.
 
