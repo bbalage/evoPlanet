@@ -1,6 +1,4 @@
-﻿
-
-using EvoPlanet.Simulator.Celestial;
+﻿using EvoPlanet.Simulator.Celestial;
 using EvoPlanet.Simulator.Simulator;
 using MathNet.Numerics.LinearAlgebra;
 
