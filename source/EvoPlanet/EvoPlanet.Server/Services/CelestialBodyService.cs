@@ -1,6 +1,7 @@
 ﻿using EvoPlanet.Server.Models;
 using System.Text.Json;
 using MongoDB.Driver;
+using Amazon.Runtime.Internal;
 
 namespace EvoPlanet.Server.Services
 {
@@ -32,19 +33,7 @@ namespace EvoPlanet.Server.Services
 
         public List<CelestialBody> GetAllCelestialBodies()
         {
-            
-            try
-            {
-                string jsonData = DataBase.ReadData(DB_FILE_NAME);
-                List<CelestialBody>? celestialBodies = JsonSerializer.Deserialize<List<CelestialBody>>(jsonData);
-                return celestialBodies ?? new List<CelestialBody>();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error during deserialization: {ex.Message}");
-                return new List<CelestialBody>();
-            }
-            
+            return _cBodies.Find(cb => true).ToList();
         }
 
         public void SaveData(List<CelestialBody> celestialBodies)
@@ -92,24 +81,22 @@ namespace EvoPlanet.Server.Services
             throw new InvalidOperationException("CelestialBody not found.");
         }
 
+        public async Task UpdateAsync(int id, CelestialBody cBody)
+        {
+            await _cBodies.ReplaceOneAsync(cb => cb.Id == id, cBody);
+        }
+
         public void DeleteCelestialBody(int celestialBodyId)
         {
-            List<CelestialBody> CelestialBodies = GetAllCelestialBodies();
-
-            if (CelestialBodies.Count > 0)
-            {
-                CelestialBody? celestialBodyToDelete = CelestialBodies.Find(c => c.Id == celestialBodyId);
-
-                if (celestialBodyToDelete != null)
-                {
-                    CelestialBodies.Remove(celestialBodyToDelete);
-                    SaveData(CelestialBodies);
-                    return;
-                }
-            }
-
-            throw new InvalidOperationException("CelestialBody not found.");
+            _cBodies.DeleteOne(cb => cb.Id == celestialBodyId);
         }
+
+        /*
+        public async Task<List<CelestialBody>> GetByUserAsync(string userId)
+        {
+            return await _cBodies.Find(cb => cb.User == userId).ToListAsync();
+        }
+        */
 
     }
 }

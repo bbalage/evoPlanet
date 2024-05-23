@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
+using MongoDB.Driver;
 
 namespace EvoPlanet.Server.Services
 {
@@ -10,6 +11,49 @@ namespace EvoPlanet.Server.Services
         private const string DB_FILE_NAME = "valami.json";
 
         private JsonSerializerOptions _defaultJsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
+
+        private readonly IMongoCollection<SolarSystem> _sSystem;
+
+        public SolarSystemService()
+        {
+            var client = new MongoClient("mongodb://localhost:27017");
+            var database = client.GetDatabase("evoPlanet");
+            _sSystem = database.GetCollection<SolarSystem>("Solarsystem");
+        }
+
+
+        public async Task<List<SolarSystem>> GetAllAsync()
+        {
+            return await _sSystem.Find(ss => true).ToListAsync();
+        }
+
+        public async Task<SolarSystem> GetByIdAsync(int id)
+        {
+            return await _sSystem.Find<SolarSystem>(ss => ss.Id == id).FirstOrDefaultAsync();
+        }
+
+        /*
+        public async Task<List<SolarSystem>> GetByUserAsync(string userId)
+        {
+            return await _sSystem.Find(s => s.User == userId).ToListAsync();
+        }
+        */
+
+        public async Task<SolarSystem> CreateAsync(SolarSystem solarsystem)
+        {
+            await _sSystem.InsertOneAsync(solarsystem);
+            return solarsystem;
+        }
+
+        public async Task UpdateAsync(int id, SolarSystem solarsystem)
+        {
+            await _sSystem.ReplaceOneAsync(ss => ss.Id == id, solarsystem);
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _sSystem.DeleteOneAsync(ss => ss.Id == id);
+        }
 
         public List<SolarSystem> GetAllSolarSystems()
         {
