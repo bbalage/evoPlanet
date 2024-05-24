@@ -18,29 +18,22 @@ namespace EvoPlanet.Server
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins("https://localhost:4200","https://localhost:7081").AllowAnyHeader().AllowAnyMethod();
+                                      policy.WithOrigins("http://localhost:4200","http://localhost:7081").AllowAnyHeader().AllowAnyMethod();
                                   });
             });
 
             // Add services to the container.
             builder.Services.AddControllers();
-            builder.Services.AddSingleton<PlanetService>();
+            builder.Services.AddSingleton<ICelestialBodyService,CelestialBodyService>();
+            builder.Services.AddSingleton<ISolarSystemService, SolarSystemService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
+            
             builder.Services.AddCors();
             var app = builder.Build();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
 
             app.UseRouting();
             /*
@@ -50,12 +43,17 @@ namespace EvoPlanet.Server
             });
             */
             //UseCors must be placed after "UseRouting", but before "UseAuthorization"
+            /*
             app.UseCors(
                 options =>
                 {
-                    options.WithOrigins("https://localhost:7081");
+                    // options.WithOrigins(https://localhost:7081);
+                    options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 }
             );              
+            */
+
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseHttpsRedirection();
             app.UseAuthorization();
