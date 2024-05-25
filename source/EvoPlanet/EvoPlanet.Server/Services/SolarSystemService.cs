@@ -20,7 +20,7 @@ namespace EvoPlanet.Server.Services
             var database = client.GetDatabase("evoPlanet");
             _sSystem = database.GetCollection<SolarSystem>("Solarsystem");
         }
-
+        
 
         public async Task<List<SolarSystem>> GetAllAsync()
         {
@@ -35,7 +35,7 @@ namespace EvoPlanet.Server.Services
         /*
         public async Task<List<SolarSystem>> GetByUserAsync(string userId)
         {
-            return await _sSystem.Find(s => s.User == userId).ToListAsync();
+            return await _sSystem.Find(ss => ss.User == userId).ToListAsync();
         }
         */
 
