@@ -26,7 +26,7 @@ interface Planet {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-
+  sidebarExpanded: boolean = true;
   public planet!: Planet;
 
   constructor(private http: HttpClient) {}
