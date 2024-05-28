@@ -12,7 +12,7 @@ The created stellar setups can be shared online with other users, and they can a
 
 Create an end-to-end flow of querying a single planet system! See the image below!
 
-![image](docs/first_slice.drawio.png)
+![image](first_slice.drawio.png)
 
 **Workflow:**
 1. The Angular Component calls the service (either due to a button push or automatically).
