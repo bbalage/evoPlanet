@@ -9,11 +9,18 @@ The created stellar setups can be shared online with other users, and they can a
 
 ---
 
+## Plans
+- [Features](/evoPlanet/features)
+
+---
+
 ## First task
 
 Create an end-to-end flow of querying a single planet system! See the image below!
 
 ![image](first_slice.drawio.png)
+
+---
 
 ## Workflow
 1. The Angular Component calls the service (either due to a button push or automatically).
@@ -25,6 +32,8 @@ the file data and returns it to the Controller.
 5. The Controller responds with the PlanetSystem's data.
 6. The Angular Service receives the data, and returns it to the Angular Component.
 7. The Component renders the planet system data in a webpage (a simple text is enough).
+
+---
 
 ## Notes
 
