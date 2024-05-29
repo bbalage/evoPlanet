@@ -8,13 +8,13 @@ The created stellar setups can be shared online with other users, and they can a
 
 ---
 
-**First task**
+## First task
 
 Create an end-to-end flow of querying a single planet system! See the image below!
 
 ![image](docs/first_slice.drawio.png)
 
-**Workflow:**
+## Workflow
 1. The Angular Component calls the service (either due to a button push or automatically).
 2. The Angular Service makes an HTTP request to the backend. It sends the name of the planet system it is asking for.
 3. The asp.net Controller receives the request, and calls on the C# Service, passing the name of the planet system as
@@ -25,7 +25,7 @@ the file data and returns it to the Controller.
 6. The Angular Service receives the data, and returns it to the Angular Component.
 7. The Component renders the planet system data in a webpage (a simple text is enough).
 
-*Notes:*
+## Notes
 
 Most important data of a planet:
 
