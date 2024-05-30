@@ -4,8 +4,14 @@
 
 Here you will see the design of the frontend page.
 
+Example page:
+---
 ![image](Scanevosoft.jpg)
+
+Home page:
+---
 ![image](Scanevosoft1.jpg)
-![image](Scanevosoft2.jpg)
-![image](Scanevosoft3.jpg)
+
+Home component (Angular):
+---
 ![image](Scanevosoft4.jpg)
