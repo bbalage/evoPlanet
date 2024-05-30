@@ -10,9 +10,9 @@ The created stellar setups can be shared online with other users, and they can a
 
 ## Plans
 
+- [ER](/evoPlanet/er)
 - [Features](/evoPlanet/features)
 - [Frontend](/evoPlanet/frontend)
-- [ER](/evoPlanet/er)
 
 ---
 
