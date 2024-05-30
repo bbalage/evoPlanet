@@ -12,6 +12,7 @@ The created stellar setups can be shared online with other users, and they can a
 
 - [Features](/evoPlanet/features)
 - [Frontend](/evoPlanet/frontend)
+- [ER](/evoPlanet/er)
 
 ---
 
