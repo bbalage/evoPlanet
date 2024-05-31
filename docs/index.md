@@ -40,7 +40,7 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 
 Most important data of a planet:
 
-```yaml
+```
 position: x, y, z
 velocity: x, y, z
 radius: number
