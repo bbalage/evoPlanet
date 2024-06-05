@@ -23,17 +23,24 @@ namespace EvoPlanet.Server.Controllers
         public IActionResult GetCelestialBodies()
         {
             var celestialBodies = _celestialBodyService.GetAllCelestialBodies();
-            //var celestialBodies = _celestialBodyService.GetAllAsync();
             return Ok(celestialBodies);
         }
 
+        /*[EnableCors("_myAllowSpecificOrigins")]
+        [HttpGet]
+        public async Task<IActionResult> GetCelestialBodiesMongoDB()
+        {
+            var celestialBodies = await _celestialBodyService.GetAllAsync();
+            return Ok(celestialBodies);
+        }*/
+
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpGet("{celestialBodyId}")]
-        public IActionResult GetCelestialBodyById(int celestialBodyId)
+        [HttpGet("{celestialBodyID}")]
+        public IActionResult GetCelestialBodyByI(int celestialBodyID)
         {
             try
             {
-                var celestialBody = _celestialBodyService.GetAllCelestialBodies().FirstOrDefault(c => c.Id == celestialBodyId);
+                var celestialBody = _celestialBodyService.GetAllCelestialBodies().FirstOrDefault(c => c.CelestialBodyID == celestialBodyID);
                 if (celestialBody != null)
                 {
                     return Ok(celestialBody);
@@ -51,21 +58,20 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPost]
-        public IActionResult AddCelestialBody([FromBody] CelestialBody newCelestialBody)
+        public IActionResult AddCelestialBody([FromBody] CelestialBodyDTO newCelestialBody)
         {
             _celestialBodyService.AddCelestialBody(newCelestialBody);
-            return Ok(_celestialBodyService.CreateAsync(newCelestialBody));
-            //return Ok();
+            return Ok();
 
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpPut("{celestialBodyId}")]
-        public IActionResult UpdateCelestialBody(int celestialBodyId, CelestialBody updatedCelestialBody)
+        [HttpPut("{celestialBodyID}")]
+        public IActionResult UpdateCelestialBody(int celestialBodyID, CelestialBodyDTO updatedCelestialBody)
         {
             try
             {
-                _celestialBodyService.UpdateCelestialBody(celestialBodyId, updatedCelestialBody);
+                _celestialBodyService.UpdateCelestialBody(celestialBodyID, updatedCelestialBody);
                 return Ok();
             }
             catch (InvalidOperationException ex)
@@ -75,12 +81,12 @@ namespace EvoPlanet.Server.Controllers
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpDelete("{celestialBodyId}")]
-        public IActionResult DeleteCelestialBody(int celestialBodyId)
+        [HttpDelete("{celestialBodyID}")]
+        public IActionResult DeleteCelestialBody(int celestialBodyID)
         {
             try
             {
-                _celestialBodyService.DeleteCelestialBody(celestialBodyId);
+                _celestialBodyService.DeleteCelestialBody(celestialBodyID);
                 return Ok();
             }
             catch (InvalidOperationException ex)

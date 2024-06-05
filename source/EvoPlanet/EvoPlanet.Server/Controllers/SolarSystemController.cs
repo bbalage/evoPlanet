@@ -27,12 +27,12 @@ namespace EvoPlanet.Server.Controllers
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpGet("{solarSystemId}")]
-        public IActionResult GetSolarSystemById(int solarSystemId)
+        [HttpGet("{solarSystemID}")]
+        public IActionResult GetSolarSystemById(int solarSystemID)
         {
             try
             {
-                var solarSystem = _solarSystemService.GetAllSolarSystems().FirstOrDefault(c => c.Id == solarSystemId);
+                var solarSystem = _solarSystemService.GetAllSolarSystems().FirstOrDefault(c => c.SolarSystemID == solarSystemID);
                 if (solarSystem != null)
                 {
                     return Ok(solarSystem);
@@ -50,19 +50,19 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPost]
-        public IActionResult AddSolarSystem(SolarSystem newSolarSystem)
+        public IActionResult AddSolarSystem(SolarSystemDTO newSolarSystem)
         {
             _solarSystemService.AddSolarSystem(newSolarSystem);
             return Ok();
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpPut("{solarSystemId}")]
-        public IActionResult UpdateSolarSystem(int solarSystemId, SolarSystem updatedSolarSystem)
+        [HttpPut("{solarSystemID}")]
+        public IActionResult UpdateSolarSystem(int solarSystemID, SolarSystemDTO updatedSolarSystem)
         {
             try
             {
-                _solarSystemService.UpdateSolarSystem(solarSystemId, updatedSolarSystem);
+                _solarSystemService.UpdateSolarSystem(solarSystemID, updatedSolarSystem);
                 return Ok();
             }
             catch (InvalidOperationException ex)
@@ -72,12 +72,12 @@ namespace EvoPlanet.Server.Controllers
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpDelete("{solarSystemId}")]
-        public IActionResult DeleteSolarSystem(int solarSystemId)
+        [HttpDelete("{solarSystemID}")]
+        public IActionResult DeleteSolarSystem(int solarSystemID)
         {
             try
             {
-                _solarSystemService.DeleteSolarSystem(solarSystemId);
+                _solarSystemService.DeleteSolarSystem(solarSystemID);
                 return Ok();
             }
             catch (InvalidOperationException ex)

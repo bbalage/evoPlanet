@@ -4,18 +4,18 @@ namespace EvoPlanet.Server.Services
 {
     public interface ICelestialBodyService
     {
-        List<CelestialBody> GetAllCelestialBodies();
+        List<CelestialBodyDTO> GetAllCelestialBodies();
 
-        void SaveData(List<CelestialBody> celestialBodies);
+        void SaveData(List<CelestialBodyDTO> celestialBodies);
 
-        void AddCelestialBody(CelestialBody newCelestialBody);
+        void AddCelestialBody(CelestialBodyDTO newCelestialBody);
 
-        void UpdateCelestialBody(int celestialBodyId, CelestialBody updatedCelestialBody);
+        void UpdateCelestialBody(int celestialBodyId, CelestialBodyDTO updatedCelestialBody);
 
         void DeleteCelestialBody(int celestialBodyId);
 
-        public Task<List<CelestialBody>> GetAllAsync();
+        public Task<List<CelestialBodyDTO>> GetAllAsync();
 
-        public Task<CelestialBody> CreateAsync(CelestialBody cBody);
+        public Task<CelestialBodyDTO> CreateAsync(CelestialBodyDTO cBody);
     }
 }

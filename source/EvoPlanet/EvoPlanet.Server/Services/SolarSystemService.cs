@@ -1,32 +1,59 @@
 ﻿using EvoPlanet.Server.Models;
 using System.Text.Json;
-using System.Collections.Generic;
-using System.Linq;
+using MongoDB.Driver;
 
 namespace EvoPlanet.Server.Services
 {
     public class SolarSystemService : ISolarSystemService
     {
         private const string DB_FILE_NAME = "valami.json";
-
+        private readonly IMongoCollection<SolarSystemDTO> _sSystem;
         private JsonSerializerOptions _defaultJsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
+        private int _currentID;
 
-        public List<SolarSystem> GetAllSolarSystems()
+        public SolarSystemService()
+        {
+            var client = new MongoClient("mongodb://localhost:27017");
+            var database = client.GetDatabase("evoPlanet");
+            _sSystem = database.GetCollection<SolarSystemDTO>("SolarSystems");
+            _currentID = GetMaxID();
+        }
+        private int GetMaxID()
+        {
+            var solarSystems = GetAllSolarSystems();
+            return solarSystems.Any() ? solarSystems.Max(s => s.SolarSystemID) : 0;
+        }
+
+        //MongoDB
+        public async Task<List<SolarSystemDTO>> GetAllAsync()
+        {
+            return await _sSystem.AsQueryable().ToListAsync();
+        }
+
+        public async Task<SolarSystemDTO> CreateAsync(SolarSystemDTO sSys)
+        {
+            sSys.SolarSystemID = ++_currentID;
+            await _sSystem.InsertOneAsync(sSys);
+            return sSys;
+        }
+
+        //JSON
+        public List<SolarSystemDTO> GetAllSolarSystems()
         {
             try
             {
                 string jsonData = DataBase.ReadData(DB_FILE_NAME);
-                List<SolarSystem>? solarSystems = JsonSerializer.Deserialize<List<SolarSystem>>(jsonData);
-                return solarSystems ?? new List<SolarSystem>();
+                List<SolarSystemDTO>? solarSystems = JsonSerializer.Deserialize<List<SolarSystemDTO>>(jsonData);
+                return solarSystems ?? new List<SolarSystemDTO>();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error during deserialization: {ex.Message}");
-                return new List<SolarSystem>();
+                return new List<SolarSystemDTO>();
             }
         }
 
-        public void SaveData(List<SolarSystem> solarSystems)
+        public void SaveData(List<SolarSystemDTO> solarSystems)
         {
             try
             {
@@ -39,45 +66,58 @@ namespace EvoPlanet.Server.Services
             }
         }
 
-        public void AddSolarSystem(SolarSystem newSolarSystem)
+        public void AddSolarSystem(SolarSystemDTO newSolarSystem)
         {
-            List<SolarSystem> solarSystems = GetAllSolarSystems();
+            newSolarSystem.SolarSystemID = ++_currentID;
+            List<SolarSystemDTO> solarSystems = GetAllSolarSystems();
             solarSystems.Add(newSolarSystem);
             SaveData(solarSystems);
         }
 
-        public void UpdateSolarSystem(int solarSystemId, SolarSystem updatedSolarSystem)
+        public void UpdateSolarSystem(int solarSystemID, SolarSystemDTO updatedSolarSystem)
         {
-            List<SolarSystem> solarSystems = GetAllSolarSystems();
+            List<SolarSystemDTO> solarSystems = GetAllSolarSystems();
 
             if (solarSystems.Count > 0)
             {
-                SolarSystem? solarSystemToUpdate = solarSystems.Find(c => c.Id == solarSystemId);
+                SolarSystemDTO? solarSystemToUpdate = solarSystems.Find(c => c.SolarSystemID == solarSystemID);
 
                 if (solarSystemToUpdate != null)
                 {
+                    // Frissítsük a név mezőt
                     solarSystemToUpdate.Name = updatedSolarSystem.Name;
-                    solarSystemToUpdate.PX = updatedSolarSystem.PX;
-                    solarSystemToUpdate.PY = updatedSolarSystem.PY;
-                    solarSystemToUpdate.VX = updatedSolarSystem.VX;
-                    solarSystemToUpdate.VY = updatedSolarSystem.VY;
-                    solarSystemToUpdate.Radius = updatedSolarSystem.Radius;
-                    solarSystemToUpdate.Mass = updatedSolarSystem.Mass;
+
+                    // Frissítsük a koordinátákat
+                    if (updatedSolarSystem.Coordinate != null && updatedSolarSystem.Coordinate.Count > 0)
+                    {
+                        solarSystemToUpdate.Coordinate.Clear();
+                        solarSystemToUpdate.Coordinate.AddRange(updatedSolarSystem.Coordinate);
+                    }
+
+                    // Frissítsük a sebességvektorokat
+                    if (updatedSolarSystem.VelocityVector != null && updatedSolarSystem.VelocityVector.Count > 0)
+                    {
+                        solarSystemToUpdate.VelocityVector.Clear();
+                        solarSystemToUpdate.VelocityVector.AddRange(updatedSolarSystem.VelocityVector);
+                    }
+
+                    // Adatok mentése
                     SaveData(solarSystems);
                     return;
                 }
             }
 
-            throw new InvalidOperationException("SolarSytem not found.");
+            throw new InvalidOperationException("SolarSystem not found.");
         }
 
-        public void DeleteSolarSystem(int solarSystemId)
+
+        public void DeleteSolarSystem(int solarSystemID)
         {
-            List<SolarSystem> solarSystems = GetAllSolarSystems();
+            List<SolarSystemDTO> solarSystems = GetAllSolarSystems();
 
             if (solarSystems.Count > 0)
             {
-                SolarSystem? solarSystemToDelete = solarSystems.Find(c => c.Id == solarSystemId);
+                SolarSystemDTO? solarSystemToDelete = solarSystems.Find(c => c.SolarSystemID == solarSystemID);
 
                 if (solarSystemToDelete != null)
                 {
@@ -89,6 +129,5 @@ namespace EvoPlanet.Server.Services
 
             throw new InvalidOperationException("SolarSystem not found.");
         }
-     
     }
 }
