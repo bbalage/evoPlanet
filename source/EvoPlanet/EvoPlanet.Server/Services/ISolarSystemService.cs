@@ -4,14 +4,15 @@ namespace EvoPlanet.Server.Services
 {
     public interface ISolarSystemService
     {
-        List<SolarSystem> GetAllSolarSystems();
 
-        void SaveData(List<SolarSystem> solarSystems);
+        public Task UpdateAsync(int id, SolarSystem sSystem);
 
-        void AddSolarSystem(SolarSystem newSolarSystem);
+        public Task<List<SolarSystem>> GetAllAsync();
 
-        void UpdateSolarSystem(int solarSystemId, SolarSystem updatedSolarSystem);
+        public Task<SolarSystem> CreateAsync(SolarSystem sSystem);
 
-        void DeleteSolarSystem(int solarSystemId);
+        public Task<SolarSystem> GetById(int id);
+
+        public Task DeleteAsync(int solarSystemId);
     }
 }
