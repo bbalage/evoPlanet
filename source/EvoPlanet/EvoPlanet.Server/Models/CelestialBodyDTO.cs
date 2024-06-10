@@ -5,8 +5,12 @@ namespace EvoPlanet.Server.Models
 {
     public class CelestialBodyDTO
     {
+        
         [JsonPropertyName("CelestialBodyID")]
         public int CelestialBodyID { get; set; }
+
+        [JsonPropertyName("Id")]
+        public Guid Id { get; set; } = Guid.Empty;
 
         [JsonPropertyName("Name")]
         public string Name { get; set; } = string.Empty;

@@ -7,6 +7,9 @@ namespace EvoPlanet.Server.Models
         [JsonPropertyName("SolarSystemID")]
         public int SolarSystemID { get; set; }
 
+        [JsonPropertyName("Id")]
+        public Guid Id { get; set; } = Guid.Empty;
+
         [JsonPropertyName("Name")]
         public string Name { get; set; } = string.Empty;
 

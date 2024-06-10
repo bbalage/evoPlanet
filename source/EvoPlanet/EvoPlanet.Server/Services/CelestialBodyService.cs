@@ -33,7 +33,7 @@ namespace EvoPlanet.Server.Services
 
         public async Task<CelestialBodyDTO> CreateAsync(CelestialBodyDTO cBody)
         {
-            cBody.CelestialBodyID = ++_currentID;
+            cBody.Id = Guid.NewGuid();
             await _cBodies.InsertOneAsync(cBody);
             return cBody;
         }

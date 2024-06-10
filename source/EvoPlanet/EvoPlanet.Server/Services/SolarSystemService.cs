@@ -32,7 +32,7 @@ namespace EvoPlanet.Server.Services
 
         public async Task<SolarSystemDTO> CreateAsync(SolarSystemDTO sSys)
         {
-            sSys.SolarSystemID = ++_currentID;
+            sSys.Id = Guid.NewGuid();
             await _sSystem.InsertOneAsync(sSys);
             return sSys;
         }
