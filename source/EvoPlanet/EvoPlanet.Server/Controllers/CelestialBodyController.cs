@@ -20,20 +20,19 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpGet]
-        public IActionResult GetCelestialBodies()
+        public async Task<IActionResult> GetCelestialBodies()
         {
-            var celestialBodies = _celestialBodyService.GetAllCelestialBodies();
-            //var celestialBodies = _celestialBodyService.GetAllAsync();
+            var celestialBodies = await _celestialBodyService.GetAllAsync();
             return Ok(celestialBodies);
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpGet("{celestialBodyId}")]
-        public IActionResult GetCelestialBodyById(int celestialBodyId)
+        public async Task<IActionResult> GetCelestialBodyById(int celestialBodyId)
         {
             try
             {
-                var celestialBody = _celestialBodyService.GetAllCelestialBodies().FirstOrDefault(c => c.Id == celestialBodyId);
+                var celestialBody =await _celestialBodyService.GetById(celestialBodyId);
                 if (celestialBody != null)
                 {
                     return Ok(celestialBody);
@@ -62,11 +61,11 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPut("{celestialBodyId}")]
-        public IActionResult UpdateCelestialBody(int celestialBodyId, CelestialBody updatedCelestialBody)
+        public async Task<IActionResult> UpdateCelestialBody(int celestialBodyId, CelestialBody updatedCelestialBody)
         {
             try
             {
-                _celestialBodyService.UpdateCelestialBody(celestialBodyId, updatedCelestialBody);
+                await _celestialBodyService.UpdateAsync(celestialBodyId, updatedCelestialBody);
                 return Ok();
             }
             catch (InvalidOperationException ex)
@@ -77,11 +76,11 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpDelete("{celestialBodyId}")]
-        public IActionResult DeleteCelestialBody(int celestialBodyId)
+        public async Task<IActionResult> DeleteCelestialBody(int celestialBodyId)
         {
             try
             {
-                _celestialBodyService.DeleteCelestialBody(celestialBodyId);
+                await _celestialBodyService.DeleteAsync(celestialBodyId);
                 return Ok();
             }
             catch (InvalidOperationException ex)
