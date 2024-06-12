@@ -23,6 +23,7 @@ namespace EvoPlanet.Server.Controllers
         public async Task<IActionResult> GetCelestialBodies()
         {
             var celestialBodies = await _celestialBodyService.GetAllAsync();
+
             return Ok(celestialBodies);
         }
 

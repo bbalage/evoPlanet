@@ -4,7 +4,6 @@ namespace EvoPlanet.Server.Services
 {
     public interface ISolarSystemService
     {
-
         public Task UpdateAsync(int id, SolarSystem sSystem);
 
         public Task<List<SolarSystem>> GetAllAsync();

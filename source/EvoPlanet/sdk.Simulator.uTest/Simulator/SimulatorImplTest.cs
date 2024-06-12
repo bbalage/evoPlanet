@@ -211,6 +211,5 @@ namespace sdk.evoPlanet.Simulator.uTest.Simulators
             gravityCalculator.Verify(m => m.CalcForce(body2, body1), Times.Once());
         }
 
-
     }
 }
