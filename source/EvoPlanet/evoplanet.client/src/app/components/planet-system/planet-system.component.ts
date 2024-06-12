@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { SolarSystemService } from '../../services/solar-system/solar-system.service';
 import { Planet, PlanetSystem } from '../../types';
 
@@ -10,7 +11,8 @@ import { Planet, PlanetSystem } from '../../types';
 
 
 export class PlanetSystemComponent implements OnInit {
-  planetSystem: PlanetSystem = {};
+  planetSystem: PlanetSystem = {}
+;
 
   constructor(private solarSystemService: SolarSystemService)
   {
@@ -18,8 +20,10 @@ export class PlanetSystemComponent implements OnInit {
 
   ngOnInit(): void
   {
-    this.planetSystem = this.solarSystemService.getSolarSystem();
+    this.solarSystemService.getSolarSystem().subscribe({
+      next: (item: PlanetSystem) => {
+        this.planetSystem = item;
+      }
+    });
   }
 }
-
-
