@@ -23,11 +23,13 @@ namespace EvoPlanet.Server.Controllers
         public async Task<IActionResult> GetCelestialBodies()
         {
             var celestialBodies = await _celestialBodyService.GetAllAsync();
+
             return Ok(celestialBodies);
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpGet("{celestialBodyId}")]
+
         public async Task<IActionResult> GetCelestialBodyById(int celestialBodyId)
         {
             try
@@ -50,6 +52,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPost]
+
         public async Task<IActionResult> AddCelestialBody([FromBody] CelestialBody newCelestialBody)
         {
             //_celestialBodyService.AddCelestialBody(newCelestialBody);

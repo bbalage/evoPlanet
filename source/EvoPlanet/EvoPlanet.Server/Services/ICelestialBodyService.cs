@@ -4,7 +4,6 @@ namespace EvoPlanet.Server.Services
 {
     public interface ICelestialBodyService
     {
-
         public Task UpdateAsync(int id, CelestialBody cBody);
 
         public Task<List<CelestialBody>> GetAllAsync();
@@ -14,5 +13,6 @@ namespace EvoPlanet.Server.Services
         public Task<CelestialBody> GetById(int id);
 
         public Task DeleteAsync(int celestialBodyId);
+
     }
 }
