@@ -1,6 +1,6 @@
 ﻿using EvoPlanet.Server.Models;
-using System.Text.Json;
 using MongoDB.Driver;
+using System.Text.Json;
 
 namespace EvoPlanet.Server.Services
 {
@@ -18,13 +18,14 @@ namespace EvoPlanet.Server.Services
             _sSystem = database.GetCollection<SolarSystemDTO>("SolarSystems");
             _currentID = GetMaxID();
         }
+
         private int GetMaxID()
         {
             var solarSystems = GetAllSolarSystems();
             return solarSystems.Any() ? solarSystems.Max(s => s.SolarSystemID) : 0;
         }
 
-        //MongoDB
+        // MongoDB
         public async Task<List<SolarSystemDTO>> GetAllAsync()
         {
             return await _sSystem.AsQueryable().ToListAsync();
@@ -37,7 +38,7 @@ namespace EvoPlanet.Server.Services
             return sSys;
         }
 
-        //JSON
+        // JSON
         public List<SolarSystemDTO> GetAllSolarSystems()
         {
             try
@@ -84,24 +85,8 @@ namespace EvoPlanet.Server.Services
 
                 if (solarSystemToUpdate != null)
                 {
-                    // Frissítsük a név mezőt
                     solarSystemToUpdate.Name = updatedSolarSystem.Name;
-
-                    // Frissítsük a koordinátákat
-                    if (updatedSolarSystem.Coordinate != null && updatedSolarSystem.Coordinate.Count > 0)
-                    {
-                        solarSystemToUpdate.Coordinate.Clear();
-                        solarSystemToUpdate.Coordinate.AddRange(updatedSolarSystem.Coordinate);
-                    }
-
-                    // Frissítsük a sebességvektorokat
-                    if (updatedSolarSystem.VelocityVector != null && updatedSolarSystem.VelocityVector.Count > 0)
-                    {
-                        solarSystemToUpdate.VelocityVector.Clear();
-                        solarSystemToUpdate.VelocityVector.AddRange(updatedSolarSystem.VelocityVector);
-                    }
-
-                    // Adatok mentése
+                    solarSystemToUpdate.CelestialBodies = updatedSolarSystem.CelestialBodies;
                     SaveData(solarSystems);
                     return;
                 }
@@ -109,7 +94,6 @@ namespace EvoPlanet.Server.Services
 
             throw new InvalidOperationException("SolarSystem not found.");
         }
-
 
         public void DeleteSolarSystem(int solarSystemID)
         {
@@ -131,3 +115,4 @@ namespace EvoPlanet.Server.Services
         }
     }
 }
+

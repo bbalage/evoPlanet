@@ -21,5 +21,11 @@ namespace EvoPlanet.Server.Models
         [JsonPropertyName("Mass")]
         public double Mass { get; set; }
 
+        [JsonPropertyName("Coordinate")]
+        public CoordinateDTO? Coordinate { get; set; }
+
+        [JsonPropertyName("VelocityVector")]
+        public VelocityVectorDTO? VelocityVector { get; set; }
+
     }
 }

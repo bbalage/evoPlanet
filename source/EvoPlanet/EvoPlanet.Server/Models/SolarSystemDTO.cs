@@ -13,10 +13,7 @@ namespace EvoPlanet.Server.Models
         [JsonPropertyName("Name")]
         public string Name { get; set; } = string.Empty;
 
-        [JsonPropertyName("Coordinate")]
-        public List<CoordinateDTO> Coordinate { get; set; } = new List<CoordinateDTO>();
-
-        [JsonPropertyName("VelocityVector")]
-        public List<VelocityVectorDTO> VelocityVector { get; set; } = new List<VelocityVectorDTO>();
+        [JsonPropertyName("CelestialBodies")]
+        public List<CelestialBodyDTO> CelestialBodies { get; set; } = new List<CelestialBodyDTO>();
     }
 }

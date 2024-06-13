@@ -1,6 +1,6 @@
 ﻿using EvoPlanet.Server.Models;
-using System.Text.Json;
 using MongoDB.Driver;
+using System.Text.Json;
 
 namespace EvoPlanet.Server.Services
 {
@@ -15,7 +15,7 @@ namespace EvoPlanet.Server.Services
         {
             var client = new MongoClient("mongodb://localhost:27017");
             var database = client.GetDatabase("evoPlanet");
-            _cBodies = database.GetCollection<CelestialBodyDTO>("Celestialbodies");
+            _cBodies = database.GetCollection<CelestialBodyDTO>("CelestialBodies");
             _currentID = GetMaxID();
         }
 
@@ -25,7 +25,7 @@ namespace EvoPlanet.Server.Services
             return celestialBodies.Any() ? celestialBodies.Max(c => c.CelestialBodyID) : 0;
         }
 
-        //MongoDB
+        // MongoDB
         public async Task<List<CelestialBodyDTO>> GetAllAsync()
         {
             return await _cBodies.AsQueryable().ToListAsync();
@@ -38,7 +38,7 @@ namespace EvoPlanet.Server.Services
             return cBody;
         }
 
-        //JSON
+        // JSON
         public List<CelestialBodyDTO> GetAllCelestialBodies()
         {
             try
@@ -88,6 +88,8 @@ namespace EvoPlanet.Server.Services
                     celestialBodyToUpdate.Name = updatedCelestialBody.Name;
                     celestialBodyToUpdate.Mass = updatedCelestialBody.Mass;
                     celestialBodyToUpdate.Radius = updatedCelestialBody.Radius;
+                    celestialBodyToUpdate.Coordinate = updatedCelestialBody.Coordinate;
+                    celestialBodyToUpdate.VelocityVector = updatedCelestialBody.VelocityVector;
                     SaveData(celestialBodies);
                     return;
                 }
@@ -98,16 +100,16 @@ namespace EvoPlanet.Server.Services
 
         public void DeleteCelestialBody(int celestialBodyID)
         {
-            List<CelestialBodyDTO> CelestialBodies = GetAllCelestialBodies();
+            List<CelestialBodyDTO> celestialBodies = GetAllCelestialBodies();
 
-            if (CelestialBodies.Count > 0)
+            if (celestialBodies.Count > 0)
             {
-                CelestialBodyDTO? celestialBodyToDelete = CelestialBodies.Find(c => c.CelestialBodyID == celestialBodyID);
+                CelestialBodyDTO? celestialBodyToDelete = celestialBodies.Find(c => c.CelestialBodyID == celestialBodyID);
 
                 if (celestialBodyToDelete != null)
                 {
-                    CelestialBodies.Remove(celestialBodyToDelete);
-                    SaveData(CelestialBodies);
+                    celestialBodies.Remove(celestialBodyToDelete);
+                    SaveData(celestialBodies);
                     return;
                 }
             }
@@ -116,4 +118,5 @@ namespace EvoPlanet.Server.Services
         }
     }
 }
+
 
