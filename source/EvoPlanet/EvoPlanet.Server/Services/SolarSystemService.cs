@@ -1,6 +1,8 @@
 ﻿using EvoPlanet.Server.Models;
 using MongoDB.Driver;
 using System.Text.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EvoPlanet.Server.Services
 {
@@ -125,6 +127,7 @@ namespace EvoPlanet.Server.Services
             }
 
             throw new InvalidOperationException("SolarSystem not found.");
-        }     
+        }
+     
     }
 }

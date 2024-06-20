@@ -1,6 +1,8 @@
 ﻿using EvoPlanet.Server.Models;
 using MongoDB.Driver;
 using System.Text.Json;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EvoPlanet.Server.Services
 {
@@ -101,6 +103,7 @@ namespace EvoPlanet.Server.Services
                     celestialBodyToUpdate.Name = updatedCelestialBody.Name;
                     celestialBodyToUpdate.Mass = updatedCelestialBody.Mass;
                     celestialBodyToUpdate.Radius = updatedCelestialBody.Radius;
+                    celestialBodyToUpdate.Mass = updatedCelestialBody.Mass;
                     SaveData(celestialBodies);
                     return;
                 }
@@ -126,6 +129,7 @@ namespace EvoPlanet.Server.Services
             }
 
             throw new InvalidOperationException("CelestialBody not found.");
-        }     
+        }
+
     }
 }

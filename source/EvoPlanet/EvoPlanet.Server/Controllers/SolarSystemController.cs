@@ -96,7 +96,7 @@ namespace EvoPlanet.Server.Controllers
         {
             var solarSystems = await _solarSystemService.GetAllAsync();
             return Ok(solarSystems);
-        }
+    }
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpGet("mongo/{solarSystemID}")]

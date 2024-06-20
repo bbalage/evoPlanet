@@ -67,7 +67,7 @@ namespace EvoPlanet.Server.Controllers
             {
                 _celestialBodyService.UpdateCelestialBody(celestialBodyID, updatedCelestialBody);
                 return Ok();
-            }
+        }
             catch (InvalidOperationException ex)
             {
                 return NotFound(ex.Message);
