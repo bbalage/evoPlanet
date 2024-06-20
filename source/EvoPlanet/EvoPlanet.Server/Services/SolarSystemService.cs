@@ -6,55 +6,69 @@ namespace EvoPlanet.Server.Services
 {
     public class SolarSystemService : ISolarSystemService
     {
-        private const string DB_FILE_NAME = "valami.json";
-        private readonly IMongoCollection<SolarSystemDTO> _sSystem;
+        private const string DB_FILE_NAME = "solarSystems.json";
+        private readonly IMongoCollection<SolarSystem> _sSystem;
         private JsonSerializerOptions _defaultJsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
-        private int _currentID;
 
         public SolarSystemService()
         {
             var client = new MongoClient("mongodb://localhost:27017");
             var database = client.GetDatabase("evoPlanet");
-            _sSystem = database.GetCollection<SolarSystemDTO>("SolarSystems");
-            _currentID = GetMaxID();
-        }
-
-        private int GetMaxID()
-        {
-            var solarSystems = GetAllSolarSystems();
-            return solarSystems.Any() ? solarSystems.Max(s => s.SolarSystemID) : 0;
+            _sSystem = database.GetCollection<SolarSystem>("SolarSystems");
         }
 
         // MongoDB
-        public async Task<List<SolarSystemDTO>> GetAllAsync()
+        public async Task<List<SolarSystem>> GetAllAsync()
         {
-            return await _sSystem.AsQueryable().ToListAsync();
+            return await _sSystem.Find(_ => true).ToListAsync();
         }
 
-        public async Task<SolarSystemDTO> CreateAsync(SolarSystemDTO sSys)
+        public async Task<SolarSystem> CreateAsync(SolarSystem sSys)
         {
-            sSys.Id = Guid.NewGuid();
+            sSys.SolarSystemID = Guid.NewGuid();
             await _sSystem.InsertOneAsync(sSys);
             return sSys;
         }
 
+        public async Task UpdateAsync(Guid solarSystemId, SolarSystem updatedSolarSystem)
+        {
+            var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
+            var result = await _sSystem.ReplaceOneAsync(filter, updatedSolarSystem);
+
+            if (result.MatchedCount == 0)
+            {
+                throw new InvalidOperationException("SolarSystem not found.");
+            }
+        }
+
+        public async Task DeleteAsync(Guid solarSystemId)
+        {
+            var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
+            var result = await _sSystem.DeleteOneAsync(filter);
+
+            if (result.DeletedCount == 0)
+            {
+                throw new InvalidOperationException("SolarSystem not found.");
+            }
+        }
+
         // JSON
-        public List<SolarSystemDTO> GetAllSolarSystems()
+        public List<SolarSystem> GetAllSolarSystems()
         {
             try
             {
                 string jsonData = DataBase.ReadData(DB_FILE_NAME);
-                List<SolarSystemDTO>? solarSystems = JsonSerializer.Deserialize<List<SolarSystemDTO>>(jsonData);
-                return solarSystems ?? new List<SolarSystemDTO>();
+                List<SolarSystem>? solarSystems = JsonSerializer.Deserialize<List<SolarSystem>>(jsonData);
+                return solarSystems ?? new List<SolarSystem>();
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error during deserialization: {ex.Message}");
-                return new List<SolarSystemDTO>();
+                return new List<SolarSystem>();
             }
         }
 
-        public void SaveData(List<SolarSystemDTO> solarSystems)
+        public void SaveData(List<SolarSystem> solarSystems)
         {
             try
             {
@@ -67,21 +81,20 @@ namespace EvoPlanet.Server.Services
             }
         }
 
-        public void AddSolarSystem(SolarSystemDTO newSolarSystem)
+        public void AddSolarSystem(SolarSystem newSolarSystem)
         {
-            newSolarSystem.SolarSystemID = ++_currentID;
-            List<SolarSystemDTO> solarSystems = GetAllSolarSystems();
+            List<SolarSystem> solarSystems = GetAllSolarSystems();
             solarSystems.Add(newSolarSystem);
             SaveData(solarSystems);
         }
 
-        public void UpdateSolarSystem(int solarSystemID, SolarSystemDTO updatedSolarSystem)
+        public void UpdateSolarSystem(Guid solarSystemID, SolarSystem updatedSolarSystem)
         {
-            List<SolarSystemDTO> solarSystems = GetAllSolarSystems();
+            List<SolarSystem> solarSystems = GetAllSolarSystems();
 
             if (solarSystems.Count > 0)
             {
-                SolarSystemDTO? solarSystemToUpdate = solarSystems.Find(c => c.SolarSystemID == solarSystemID);
+                SolarSystem? solarSystemToUpdate = solarSystems.Find(s => s.SolarSystemID == solarSystemID);
 
                 if (solarSystemToUpdate != null)
                 {
@@ -95,13 +108,13 @@ namespace EvoPlanet.Server.Services
             throw new InvalidOperationException("SolarSystem not found.");
         }
 
-        public void DeleteSolarSystem(int solarSystemID)
+        public void DeleteSolarSystem(Guid solarSystemID)
         {
-            List<SolarSystemDTO> solarSystems = GetAllSolarSystems();
+            List<SolarSystem> solarSystems = GetAllSolarSystems();
 
             if (solarSystems.Count > 0)
             {
-                SolarSystemDTO? solarSystemToDelete = solarSystems.Find(c => c.SolarSystemID == solarSystemID);
+                SolarSystem? solarSystemToDelete = solarSystems.Find(s => s.SolarSystemID == solarSystemID);
 
                 if (solarSystemToDelete != null)
                 {
@@ -112,7 +125,6 @@ namespace EvoPlanet.Server.Services
             }
 
             throw new InvalidOperationException("SolarSystem not found.");
-        }
+        }     
     }
 }
-

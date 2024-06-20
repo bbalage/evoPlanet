@@ -2,7 +2,7 @@
 
 namespace EvoPlanet.Server.Models
 {
-    public class VelocityVectorDTO
+    public class VelocityVector
     {
         [JsonPropertyName("VX")]
         public double VX { get; set; }

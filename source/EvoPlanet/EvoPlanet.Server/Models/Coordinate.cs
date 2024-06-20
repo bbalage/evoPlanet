@@ -2,7 +2,7 @@
 
 namespace EvoPlanet.Server.Models
 {
-    public class CoordinateDTO
+    public class Coordinate
     {
         [JsonPropertyName("PX")]
         public double PX { get; set; }

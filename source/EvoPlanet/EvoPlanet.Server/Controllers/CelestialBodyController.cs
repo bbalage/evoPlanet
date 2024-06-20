@@ -2,7 +2,9 @@
 using EvoPlanet.Server.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EvoPlanet.Server.Controllers
 {
@@ -18,25 +20,18 @@ namespace EvoPlanet.Server.Controllers
             _celestialBodyService = celestialBodyService;
         }
 
+        // JSON Methods
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpGet]
+        [HttpGet("json")]
         public IActionResult GetCelestialBodies()
         {
             var celestialBodies = _celestialBodyService.GetAllCelestialBodies();
             return Ok(celestialBodies);
         }
 
-        /*[EnableCors("_myAllowSpecificOrigins")]
-        [HttpGet]
-        public async Task<IActionResult> GetCelestialBodiesMongoDB()
-        {
-            var celestialBodies = await _celestialBodyService.GetAllAsync();
-            return Ok(celestialBodies);
-        }*/
-
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpGet("{celestialBodyID}")]
-        public IActionResult GetCelestialBodyByI(int celestialBodyID)
+        [HttpGet("json/{celestialBodyID}")]
+        public IActionResult GetCelestialBodyById(Guid celestialBodyID)
         {
             try
             {
@@ -57,17 +52,16 @@ namespace EvoPlanet.Server.Controllers
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpPost]
-        public IActionResult AddCelestialBody([FromBody] CelestialBodyDTO newCelestialBody)
+        [HttpPost("json")]
+        public IActionResult AddCelestialBody([FromBody] CelestialBody newCelestialBody)
         {
             _celestialBodyService.AddCelestialBody(newCelestialBody);
             return Ok();
-
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpPut("{celestialBodyID}")]
-        public IActionResult UpdateCelestialBody(int celestialBodyID, CelestialBodyDTO updatedCelestialBody)
+        [HttpPut("json/{celestialBodyID}")]
+        public IActionResult UpdateCelestialBody(Guid celestialBodyID, [FromBody] CelestialBody updatedCelestialBody)
         {
             try
             {
@@ -81,12 +75,75 @@ namespace EvoPlanet.Server.Controllers
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpDelete("{celestialBodyID}")]
-        public IActionResult DeleteCelestialBody(int celestialBodyID)
+        [HttpDelete("json/{celestialBodyID}")]
+        public IActionResult DeleteCelestialBody(Guid celestialBodyID)
         {
             try
             {
                 _celestialBodyService.DeleteCelestialBody(celestialBodyID);
+                return Ok();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        // MongoDB Methods
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpGet("mongo")]
+        public async Task<IActionResult> GetCelestialBodiesMongo()
+        {
+            var celestialBodies = await _celestialBodyService.GetAllAsync();
+            return Ok(celestialBodies);
+        }
+
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpGet("mongo/{celestialBodyID}")]
+        public async Task<IActionResult> GetCelestialBodyByIdMongo(Guid celestialBodyID)
+        {
+            var celestialBodies = await _celestialBodyService.GetAllAsync();
+            var celestialBody = celestialBodies.FirstOrDefault(c => c.CelestialBodyID == celestialBodyID);
+            if (celestialBody != null)
+            {
+                return Ok(celestialBody);
+            }
+            else
+            {
+                return NotFound("CelestialBody not found.");
+            }
+        }
+
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpPost("mongo")]
+        public async Task<IActionResult> AddCelestialBodyMongo([FromBody] CelestialBody newCelestialBody)
+        {
+            var createdCelestialBody = await _celestialBodyService.CreateAsync(newCelestialBody);
+            return Ok(createdCelestialBody);
+        }
+
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpPut("mongo/{celestialBodyID}")]
+        public async Task<IActionResult> UpdateCelestialBodyMongo(Guid celestialBodyID, [FromBody] CelestialBody updatedCelestialBody)
+        {
+            try
+            {
+                await _celestialBodyService.UpdateAsync(celestialBodyID, updatedCelestialBody);
+                return Ok();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpDelete("mongo/{celestialBodyID}")]
+        public async Task<IActionResult> DeleteCelestialBodyMongo(Guid celestialBodyID)
+        {
+            try
+            {
+                await _celestialBodyService.DeleteAsync(celestialBodyID);
                 return Ok();
             }
             catch (InvalidOperationException ex)
