@@ -2,7 +2,7 @@
 
 namespace EvoPlanet.Server.Models
 {
-    public class SolarSystem
+    public class SolarSystemDTO
     {
         [JsonPropertyName("SolarSystemID")]
         public Guid SolarSystemID { get; set; } = Guid.Empty;
@@ -11,6 +11,6 @@ namespace EvoPlanet.Server.Models
         public string Name { get; set; } = string.Empty;
 
         [JsonPropertyName("CelestialBodies")]
-        public List<CelestialBodyReference>? CelestialBodies { get; set;}
+        public CelestialBodyDTO? CelestialBodies { get; set; }
     }
 }

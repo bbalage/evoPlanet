@@ -17,6 +17,7 @@ export class SolarSystemService {
 getSolarSystem(): Observable<PlanetSystem> {
   return this.http.get<PlanetSystem>('https://localhost:7081/api/SolarSystem');
 }
+*/
 
 
 /*

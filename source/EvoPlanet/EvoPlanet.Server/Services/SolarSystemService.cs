@@ -1,4 +1,5 @@
 ﻿using EvoPlanet.Server.Models;
+using MongoDB.Driver;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,53 @@ namespace EvoPlanet.Server.Services
 {
     public class SolarSystemService : ISolarSystemService
     {
-        private const string DB_FILE_NAME = "valami.json";
-
+        private const string DB_FILE_NAME = "solarSystems.json";
+        private readonly IMongoCollection<SolarSystem> _sSystem;
         private JsonSerializerOptions _defaultJsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
 
+        public SolarSystemService()
+        {
+            var client = new MongoClient("mongodb://localhost:27017");
+            var database = client.GetDatabase("evoPlanet");
+            _sSystem = database.GetCollection<SolarSystem>("SolarSystems");
+        }
+
+        // MongoDB
+        public async Task<List<SolarSystem>> GetAllAsync()
+        {
+            return await _sSystem.Find(_ => true).ToListAsync();
+        }
+
+        public async Task<SolarSystem> CreateAsync(SolarSystem sSys)
+        {
+            sSys.SolarSystemID = Guid.NewGuid();
+            await _sSystem.InsertOneAsync(sSys);
+            return sSys;
+        }
+
+        public async Task UpdateAsync(Guid solarSystemId, SolarSystem updatedSolarSystem)
+        {
+            var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
+            var result = await _sSystem.ReplaceOneAsync(filter, updatedSolarSystem);
+
+            if (result.MatchedCount == 0)
+            {
+                throw new InvalidOperationException("SolarSystem not found.");
+            }
+        }
+
+        public async Task DeleteAsync(Guid solarSystemId)
+        {
+            var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
+            var result = await _sSystem.DeleteOneAsync(filter);
+
+            if (result.DeletedCount == 0)
+            {
+                throw new InvalidOperationException("SolarSystem not found.");
+            }
+        }
+
+        // JSON
         public List<SolarSystem> GetAllSolarSystems()
         {
             try
@@ -46,38 +90,33 @@ namespace EvoPlanet.Server.Services
             SaveData(solarSystems);
         }
 
-        public void UpdateSolarSystem(int solarSystemId, SolarSystem updatedSolarSystem)
+        public void UpdateSolarSystem(Guid solarSystemID, SolarSystem updatedSolarSystem)
         {
             List<SolarSystem> solarSystems = GetAllSolarSystems();
 
             if (solarSystems.Count > 0)
             {
-                SolarSystem? solarSystemToUpdate = solarSystems.Find(c => c.Id == solarSystemId);
+                SolarSystem? solarSystemToUpdate = solarSystems.Find(s => s.SolarSystemID == solarSystemID);
 
                 if (solarSystemToUpdate != null)
                 {
                     solarSystemToUpdate.Name = updatedSolarSystem.Name;
-                    solarSystemToUpdate.PX = updatedSolarSystem.PX;
-                    solarSystemToUpdate.PY = updatedSolarSystem.PY;
-                    solarSystemToUpdate.VX = updatedSolarSystem.VX;
-                    solarSystemToUpdate.VY = updatedSolarSystem.VY;
-                    solarSystemToUpdate.Radius = updatedSolarSystem.Radius;
-                    solarSystemToUpdate.Mass = updatedSolarSystem.Mass;
+                    solarSystemToUpdate.CelestialBodies = updatedSolarSystem.CelestialBodies;
                     SaveData(solarSystems);
                     return;
                 }
             }
 
-            throw new InvalidOperationException("SolarSytem not found.");
+            throw new InvalidOperationException("SolarSystem not found.");
         }
 
-        public void DeleteSolarSystem(int solarSystemId)
+        public void DeleteSolarSystem(Guid solarSystemID)
         {
             List<SolarSystem> solarSystems = GetAllSolarSystems();
 
             if (solarSystems.Count > 0)
             {
-                SolarSystem? solarSystemToDelete = solarSystems.Find(c => c.Id == solarSystemId);
+                SolarSystem? solarSystemToDelete = solarSystems.Find(s => s.SolarSystemID == solarSystemID);
 
                 if (solarSystemToDelete != null)
                 {

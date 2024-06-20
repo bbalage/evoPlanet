@@ -2,7 +2,9 @@
 using EvoPlanet.Server.Services;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EvoPlanet.Server.Controllers
 {
@@ -18,8 +20,9 @@ namespace EvoPlanet.Server.Controllers
             _solarSystemService = solarSystemService;
         }
 
+        // JSON Methods
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpGet]
+        [HttpGet("json")]
         public IActionResult GetAllSolarSystems()
         {
             var solarSystems = _solarSystemService.GetAllSolarSystems();
@@ -27,12 +30,12 @@ namespace EvoPlanet.Server.Controllers
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpGet("{solarSystemId}")]
-        public IActionResult GetSolarSystemById(int solarSystemId)
+        [HttpGet("json/{solarSystemID}")]
+        public IActionResult GetSolarSystemById(Guid solarSystemID)
         {
             try
             {
-                var solarSystem = _solarSystemService.GetAllSolarSystems().FirstOrDefault(c => c.Id == solarSystemId);
+                var solarSystem = _solarSystemService.GetAllSolarSystems().FirstOrDefault(c => c.SolarSystemID == solarSystemID);
                 if (solarSystem != null)
                 {
                     return Ok(solarSystem);
@@ -49,20 +52,20 @@ namespace EvoPlanet.Server.Controllers
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpPost]
-        public IActionResult AddSolarSystem(SolarSystem newSolarSystem)
+        [HttpPost("json")]
+        public IActionResult AddSolarSystem([FromBody] SolarSystem newSolarSystem)
         {
             _solarSystemService.AddSolarSystem(newSolarSystem);
             return Ok();
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpPut("{solarSystemId}")]
-        public IActionResult UpdateSolarSystem(int solarSystemId, SolarSystem updatedSolarSystem)
+        [HttpPut("json/{solarSystemID}")]
+        public IActionResult UpdateSolarSystem(Guid solarSystemID, [FromBody] SolarSystem updatedSolarSystem)
         {
             try
             {
-                _solarSystemService.UpdateSolarSystem(solarSystemId, updatedSolarSystem);
+                _solarSystemService.UpdateSolarSystem(solarSystemID, updatedSolarSystem);
                 return Ok();
             }
             catch (InvalidOperationException ex)
@@ -72,12 +75,75 @@ namespace EvoPlanet.Server.Controllers
         }
 
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpDelete("{solarSystemId}")]
-        public IActionResult DeleteSolarSystem(int solarSystemId)
+        [HttpDelete("json/{solarSystemID}")]
+        public IActionResult DeleteSolarSystem(Guid solarSystemID)
         {
             try
             {
-                _solarSystemService.DeleteSolarSystem(solarSystemId);
+                _solarSystemService.DeleteSolarSystem(solarSystemID);
+                return Ok();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        // MongoDB Methods
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpGet("mongo")]
+        public async Task<IActionResult> GetAllSolarSystemsMongo()
+        {
+            var solarSystems = await _solarSystemService.GetAllAsync();
+            return Ok(solarSystems);
+    }
+
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpGet("mongo/{solarSystemID}")]
+        public async Task<IActionResult> GetSolarSystemByIdMongo(Guid solarSystemID)
+        {
+            var solarSystems = await _solarSystemService.GetAllAsync();
+            var solarSystem = solarSystems.FirstOrDefault(c => c.SolarSystemID == solarSystemID);
+            if (solarSystem != null)
+            {
+                return Ok(solarSystem);
+            }
+            else
+            {
+                return NotFound("SolarSystem not found.");
+            }
+        }
+
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpPost("mongo")]
+        public async Task<IActionResult> AddSolarSystemMongo([FromBody] SolarSystem newSolarSystem)
+        {
+            var createdSolarSystem = await _solarSystemService.CreateAsync(newSolarSystem);
+            return Ok(createdSolarSystem);
+        }
+
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpPut("mongo/{solarSystemID}")]
+        public async Task<IActionResult> UpdateSolarSystemMongo(Guid solarSystemID, [FromBody] SolarSystem updatedSolarSystem)
+        {
+            try
+            {
+                await _solarSystemService.UpdateAsync(solarSystemID, updatedSolarSystem);
+                return Ok();
+            }
+            catch (InvalidOperationException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
+        [EnableCors("_myAllowSpecificOrigins")]
+        [HttpDelete("mongo/{solarSystemID}")]
+        public async Task<IActionResult> DeleteSolarSystemMongo(Guid solarSystemID)
+        {
+            try
+            {
+                await _solarSystemService.DeleteAsync(solarSystemID);
                 return Ok();
             }
             catch (InvalidOperationException ex)
@@ -86,5 +152,4 @@ namespace EvoPlanet.Server.Controllers
             }
         }
     }
-
 }

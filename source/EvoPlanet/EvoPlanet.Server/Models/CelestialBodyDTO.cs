@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace EvoPlanet.Server.Models
 {
-    public class CelestialBody
+    public class CelestialBodyDTO
     {
-        
         [JsonPropertyName("CelestialBodyID")]
         public Guid CelestialBodyID { get; set; } = Guid.Empty;
 
@@ -17,5 +15,11 @@ namespace EvoPlanet.Server.Models
 
         [JsonPropertyName("Mass")]
         public double Mass { get; set; }
+
+        [JsonPropertyName("Coordinate")]
+        public Coordinate? Coordinate { get; set; }
+
+        [JsonPropertyName("VelocityVector")]
+        public VelocityVector? VelocityVector { get; set; }
     }
 }

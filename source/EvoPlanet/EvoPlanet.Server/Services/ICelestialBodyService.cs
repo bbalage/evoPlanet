@@ -10,8 +10,16 @@ namespace EvoPlanet.Server.Services
 
         void AddCelestialBody(CelestialBody newCelestialBody);
 
-        void UpdateCelestialBody(int celestialBodyId, CelestialBody updatedCelestialBody);
+        void UpdateCelestialBody(Guid celestialBodyId, CelestialBody updatedCelestialBody);
 
-        void DeleteCelestialBody(int celestialBodyId);
+        void DeleteCelestialBody(Guid celestialBodyId);
+
+        Task<List<CelestialBody>> GetAllAsync();
+
+        Task<CelestialBody> CreateAsync(CelestialBody cBody);
+
+        Task UpdateAsync(Guid celestialBodyId, CelestialBody updatedCelestialBody);
+
+        Task DeleteAsync(Guid celestialBodyId);
     }
 }

@@ -35,6 +35,12 @@ namespace EvoPlanet.Server
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
             app.UseRouting();
             /*
             app.UseCors(options =>
