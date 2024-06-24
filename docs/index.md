@@ -10,7 +10,7 @@ The created stellar setups can be shared online with other users, and they can a
 
 ---
 
-## Plans
+## Our ideas
 
 - [ER](/evoPlanet/er)
 - [Features](/evoPlanet/features)
@@ -18,7 +18,15 @@ The created stellar setups can be shared online with other users, and they can a
 
 ---
 
-## First Task
+## Our results
+
+- Backend (Json, MongoDB) (backend.md)
+- Pages (pages.md)
+- Unit test (unit_test.md)
+
+---
+
+## Our future tasks
 
 Create an end-to-end flow of querying a single planet system! See the image below!
 
