@@ -1,6 +1,7 @@
 
 using EvoPlanet.Server.Services;
 using Microsoft.AspNetCore.Cors;
+using Microsoft.OpenApi.Models;
 
 namespace EvoPlanet.Server
 {
@@ -28,22 +29,31 @@ namespace EvoPlanet.Server
             builder.Services.AddSingleton<ISolarSystemService, SolarSystemService>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
-            
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "EvoPlanet API", Version = "v1" });
+            });
             builder.Services.AddCors();
             var app = builder.Build();
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseSwagger();
+                app.UseSwaggerUI();
+            }
+
             app.UseRouting();
-            /*
+            
             app.UseCors(options =>
             {
                 options.AllowAnyOrigin();
             });
-            */
+            
             //UseCors must be placed after "UseRouting", but before "UseAuthorization"
-            /*
+            
             app.UseCors(
                 options =>
                 {
@@ -51,7 +61,7 @@ namespace EvoPlanet.Server
                     options.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                 }
             );              
-            */
+            
 
             app.UseCors(MyAllowSpecificOrigins);
 

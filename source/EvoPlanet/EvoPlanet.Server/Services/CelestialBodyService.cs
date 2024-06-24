@@ -1,4 +1,5 @@
 ﻿using EvoPlanet.Server.Models;
+using MongoDB.Driver;
 using System.Text.Json;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,53 @@ namespace EvoPlanet.Server.Services
 {
     public class CelestialBodyService : ICelestialBodyService
     {
-        private const string DB_FILE_NAME = "valami.json";
-
+        private const string DB_FILE_NAME = "celestialBodies.json";
+        private readonly IMongoCollection<CelestialBody> _cBodies;
         private JsonSerializerOptions _defaultJsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
 
+        public CelestialBodyService()
+        {
+            var client = new MongoClient("mongodb://localhost:27017");
+            var database = client.GetDatabase("evoPlanet");
+            _cBodies = database.GetCollection<CelestialBody>("CelestialBodies");
+        }
+
+        // MongoDB
+        public async Task<List<CelestialBody>> GetAllAsync()
+        {
+            return await _cBodies.Find(_ => true).ToListAsync();
+        }
+
+        public async Task<CelestialBody> CreateAsync(CelestialBody cBody)
+        {
+            cBody.CelestialBodyID = Guid.NewGuid();
+            await _cBodies.InsertOneAsync(cBody);
+            return cBody;
+        }
+
+        public async Task UpdateAsync(Guid celestialBodyId, CelestialBody updatedCelestialBody)
+        {
+            var filter = Builders<CelestialBody>.Filter.Eq(c => c.CelestialBodyID, celestialBodyId);
+            var result = await _cBodies.ReplaceOneAsync(filter, updatedCelestialBody);
+
+            if (result.MatchedCount == 0)
+            {
+                throw new InvalidOperationException("CelestialBody not found.");
+            }
+        }
+
+        public async Task DeleteAsync(Guid celestialBodyId)
+        {
+            var filter = Builders<CelestialBody>.Filter.Eq(c => c.CelestialBodyID, celestialBodyId);
+            var result = await _cBodies.DeleteOneAsync(filter);
+
+            if (result.DeletedCount == 0)
+            {
+                throw new InvalidOperationException("CelestialBody not found.");
+            }
+        }
+
+        // JSON
         public List<CelestialBody> GetAllCelestialBodies()
         {
             try
@@ -46,21 +90,18 @@ namespace EvoPlanet.Server.Services
             SaveData(celestialBodies);
         }
 
-        public void UpdateCelestialBody(int celestialBodyId, CelestialBody updatedCelestialBody)
+        public void UpdateCelestialBody(Guid celestialBodyID, CelestialBody updatedCelestialBody)
         {
             List<CelestialBody> celestialBodies = GetAllCelestialBodies();
 
             if (celestialBodies.Count > 0)
             {
-                CelestialBody? celestialBodyToUpdate = celestialBodies.Find(c => c.Id == celestialBodyId);
+                CelestialBody? celestialBodyToUpdate = celestialBodies.Find(c => c.CelestialBodyID == celestialBodyID);
 
                 if (celestialBodyToUpdate != null)
                 {
                     celestialBodyToUpdate.Name = updatedCelestialBody.Name;
-                    celestialBodyToUpdate.PX = updatedCelestialBody.PX;
-                    celestialBodyToUpdate.PY = updatedCelestialBody.PY;
-                    celestialBodyToUpdate.VX = updatedCelestialBody.VX;
-                    celestialBodyToUpdate.VY = updatedCelestialBody.VY;
+                    celestialBodyToUpdate.Mass = updatedCelestialBody.Mass;
                     celestialBodyToUpdate.Radius = updatedCelestialBody.Radius;
                     celestialBodyToUpdate.Mass = updatedCelestialBody.Mass;
                     SaveData(celestialBodies);
@@ -71,18 +112,18 @@ namespace EvoPlanet.Server.Services
             throw new InvalidOperationException("CelestialBody not found.");
         }
 
-        public void DeleteCelestialBody(int celestialBodyId)
+        public void DeleteCelestialBody(Guid celestialBodyID)
         {
-            List<CelestialBody> CelestialBodies = GetAllCelestialBodies();
+            List<CelestialBody> celestialBodies = GetAllCelestialBodies();
 
-            if (CelestialBodies.Count > 0)
+            if (celestialBodies.Count > 0)
             {
-                CelestialBody? celestialBodyToDelete = CelestialBodies.Find(c => c.Id == celestialBodyId);
+                CelestialBody? celestialBodyToDelete = celestialBodies.Find(c => c.CelestialBodyID == celestialBodyID);
 
                 if (celestialBodyToDelete != null)
                 {
-                    CelestialBodies.Remove(celestialBodyToDelete);
-                    SaveData(CelestialBodies);
+                    celestialBodies.Remove(celestialBodyToDelete);
+                    SaveData(celestialBodies);
                     return;
                 }
             }

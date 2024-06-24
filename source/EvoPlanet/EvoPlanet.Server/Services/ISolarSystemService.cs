@@ -10,8 +10,16 @@ namespace EvoPlanet.Server.Services
 
         void AddSolarSystem(SolarSystem newSolarSystem);
 
-        void UpdateSolarSystem(int solarSystemId, SolarSystem updatedSolarSystem);
+        void UpdateSolarSystem(Guid solarSystemId, SolarSystem updatedSolarSystem);
 
-        void DeleteSolarSystem(int solarSystemId);
+        void DeleteSolarSystem(Guid solarSystemId);
+
+        Task<List<SolarSystem>> GetAllAsync();
+
+        Task<SolarSystem> CreateAsync(SolarSystem sSystem);
+
+        Task UpdateAsync(Guid solarSystemId, SolarSystem updatedSolarSystem);
+
+        Task DeleteAsync(Guid solarSystemId);
     }
 }
