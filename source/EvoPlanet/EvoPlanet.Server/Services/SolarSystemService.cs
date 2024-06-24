@@ -27,12 +27,11 @@ namespace EvoPlanet.Server.Services
 
         public async Task<SolarSystem> CreateAsync(SolarSystem sSys)
         {
-            sSys.SolarSystemID = Guid.NewGuid();
             await _sSystem.InsertOneAsync(sSys);
             return sSys;
         }
 
-        public async Task UpdateAsync(Guid solarSystemId, SolarSystem updatedSolarSystem)
+        public async Task UpdateAsync(string solarSystemId, SolarSystem updatedSolarSystem)
         {
             var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
             var result = await _sSystem.ReplaceOneAsync(filter, updatedSolarSystem);
@@ -43,7 +42,7 @@ namespace EvoPlanet.Server.Services
             }
         }
 
-        public async Task DeleteAsync(Guid solarSystemId)
+        public async Task DeleteAsync(string solarSystemId)
         {
             var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
             var result = await _sSystem.DeleteOneAsync(filter);
@@ -90,7 +89,7 @@ namespace EvoPlanet.Server.Services
             SaveData(solarSystems);
         }
 
-        public void UpdateSolarSystem(Guid solarSystemID, SolarSystem updatedSolarSystem)
+        public void UpdateSolarSystem(string solarSystemID, SolarSystem updatedSolarSystem)
         {
             List<SolarSystem> solarSystems = GetAllSolarSystems();
 
@@ -110,7 +109,7 @@ namespace EvoPlanet.Server.Services
             throw new InvalidOperationException("SolarSystem not found.");
         }
 
-        public void DeleteSolarSystem(Guid solarSystemID)
+        public void DeleteSolarSystem(string solarSystemID)
         {
             List<SolarSystem> solarSystems = GetAllSolarSystems();
 

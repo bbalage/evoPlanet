@@ -27,12 +27,11 @@ namespace EvoPlanet.Server.Services
 
         public async Task<CelestialBody> CreateAsync(CelestialBody cBody)
         {
-            cBody.CelestialBodyID = Guid.NewGuid();
             await _cBodies.InsertOneAsync(cBody);
             return cBody;
         }
 
-        public async Task UpdateAsync(Guid celestialBodyId, CelestialBody updatedCelestialBody)
+        public async Task UpdateAsync(string celestialBodyId, CelestialBody updatedCelestialBody)
         {
             var filter = Builders<CelestialBody>.Filter.Eq(c => c.CelestialBodyID, celestialBodyId);
             var result = await _cBodies.ReplaceOneAsync(filter, updatedCelestialBody);
@@ -43,7 +42,7 @@ namespace EvoPlanet.Server.Services
             }
         }
 
-        public async Task DeleteAsync(Guid celestialBodyId)
+        public async Task DeleteAsync(string celestialBodyId)
         {
             var filter = Builders<CelestialBody>.Filter.Eq(c => c.CelestialBodyID, celestialBodyId);
             var result = await _cBodies.DeleteOneAsync(filter);
@@ -90,7 +89,7 @@ namespace EvoPlanet.Server.Services
             SaveData(celestialBodies);
         }
 
-        public void UpdateCelestialBody(Guid celestialBodyID, CelestialBody updatedCelestialBody)
+        public void UpdateCelestialBody(string celestialBodyID, CelestialBody updatedCelestialBody)
         {
             List<CelestialBody> celestialBodies = GetAllCelestialBodies();
 
@@ -112,7 +111,7 @@ namespace EvoPlanet.Server.Services
             throw new InvalidOperationException("CelestialBody not found.");
         }
 
-        public void DeleteCelestialBody(Guid celestialBodyID)
+        public void DeleteCelestialBody(string celestialBodyID)
         {
             List<CelestialBody> celestialBodies = GetAllCelestialBodies();
 
