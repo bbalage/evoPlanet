@@ -51,7 +51,6 @@ namespace sdk.evoPlanet.Simulator.uTest.Simulators
             gravityCalculator.Verify(m => m.CalcForce(body1, body2), Times.Once());
             gravityCalculator.Verify(m => m.CalcForce(body2, body1), Times.Once());
         }
-
         [Test]
         public void IsOneHeavierThanTheOther()
         {
