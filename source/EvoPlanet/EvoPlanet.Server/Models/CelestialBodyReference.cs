@@ -5,7 +5,7 @@ namespace EvoPlanet.Server.Models
     public class CelestialBodyReference
     {
         [JsonPropertyName("CelestialBodyID")]
-        public Guid CelestialBodyID { get; set; } = Guid.Empty;
+        public string CelestialBodyID { get; set; } = string.Empty;
 
         [JsonPropertyName("Coordinate")]
         public Coordinate? Coordinate { get; set; }

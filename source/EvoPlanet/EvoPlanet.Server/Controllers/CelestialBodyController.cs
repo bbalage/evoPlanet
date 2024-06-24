@@ -35,7 +35,7 @@ namespace EvoPlanet.Server.Controllers
         {
             try
             {
-                var celestialBody = _celestialBodyService.GetAllCelestialBodies().FirstOrDefault(c => c.CelestialBodyID == celestialBodyID.ToString());
+                var celestialBody = _celestialBodyService.GetAllCelestialBodies().FirstOrDefault(c => c.Id == celestialBodyID.ToString());
                 if (celestialBody != null)
                 {
                     return Ok(celestialBody);
@@ -103,7 +103,7 @@ namespace EvoPlanet.Server.Controllers
         public async Task<IActionResult> GetCelestialBodyByIdMongo(Guid celestialBodyID)
         {
             var celestialBodies = await _celestialBodyService.GetAllAsync();
-            var celestialBody = celestialBodies.FirstOrDefault(c => c.CelestialBodyID == celestialBodyID.ToString());
+            var celestialBody = celestialBodies.FirstOrDefault(c => c.Id == celestialBodyID.ToString());
             if (celestialBody != null)
             {
                 return Ok(celestialBody);

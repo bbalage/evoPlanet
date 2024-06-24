@@ -8,8 +8,6 @@ import { PlanetSystem } from '../../types';
 })
 export class SolarSystemService {
 
-  solarSystem: PlanetSystem = {};
-
   constructor(private http: HttpClient) { }
 
   //TODO: Change link if it doesn't work

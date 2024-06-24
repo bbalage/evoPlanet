@@ -11,8 +11,7 @@ import { Planet, PlanetSystem } from '../../types';
 
 
 export class PlanetSystemComponent implements OnInit {
-  planetSystem: PlanetSystem = {}
-;
+  planetSystem: PlanetSystem = {};
 
   constructor(private solarSystemService: SolarSystemService)
   {

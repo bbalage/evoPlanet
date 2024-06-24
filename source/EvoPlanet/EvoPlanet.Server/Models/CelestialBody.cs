@@ -7,10 +7,9 @@ namespace EvoPlanet.Server.Models
 {
     public class CelestialBody
     {
-
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string? CelestialBodyID { get; set; } = string.Empty;
+        public string? Id { get; set; }
 
         [JsonPropertyName("Name")]
         public string Name { get; set; } = string.Empty;

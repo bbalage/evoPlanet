@@ -35,7 +35,7 @@ namespace EvoPlanet.Server.Controllers
         {
             try
             {
-                var solarSystem = _solarSystemService.GetAllSolarSystems().FirstOrDefault(c => c.SolarSystemID == solarSystemID.ToString());
+                var solarSystem = _solarSystemService.GetAllSolarSystems().FirstOrDefault(c => c.Id == solarSystemID.ToString());
                 if (solarSystem != null)
                 {
                     return Ok(solarSystem);
@@ -103,7 +103,7 @@ namespace EvoPlanet.Server.Controllers
         public async Task<IActionResult> GetSolarSystemByIdMongo(Guid solarSystemID)
         {
             var solarSystems = await _solarSystemService.GetAllAsync();
-            var solarSystem = solarSystems.FirstOrDefault(c => c.SolarSystemID == solarSystemID.ToString());
+            var solarSystem = solarSystems.FirstOrDefault(c => c.Id == solarSystemID.ToString());
             if (solarSystem != null)
             {
                 return Ok(solarSystem);

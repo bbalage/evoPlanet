@@ -7,11 +7,8 @@ export interface Vector
 
 export interface Planet
 {
-  Name?: string;
-  PX: number;
-  PY: number;
-  VX: number;
-  VY: number;
+  CelestialBodyID: string;
+  Name: string;
   Radius: number;
   Mass: number;
 }

@@ -6,12 +6,14 @@ import { PlanetSystemComponent } from './components/planet-system/planet-system.
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
+import { CelestialbodyComponent } from './components/celestialbody/celestialbody.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PlanetSystemComponent,
-    HomeComponent
+    HomeComponent,
+    CelestialbodyComponent
   ],
   imports: [
     BrowserModule, HttpClientModule, NgbModule, AppRoutingModule

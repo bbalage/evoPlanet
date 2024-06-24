@@ -33,7 +33,7 @@ namespace EvoPlanet.Server.Services
 
         public async Task UpdateAsync(string solarSystemId, SolarSystem updatedSolarSystem)
         {
-            var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
+            var filter = Builders<SolarSystem>.Filter.Eq(s => s.Id, solarSystemId);
             var result = await _sSystem.ReplaceOneAsync(filter, updatedSolarSystem);
 
             if (result.MatchedCount == 0)
@@ -44,7 +44,7 @@ namespace EvoPlanet.Server.Services
 
         public async Task DeleteAsync(string solarSystemId)
         {
-            var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
+            var filter = Builders<SolarSystem>.Filter.Eq(s => s.Id, solarSystemId);
             var result = await _sSystem.DeleteOneAsync(filter);
 
             if (result.DeletedCount == 0)
@@ -95,7 +95,7 @@ namespace EvoPlanet.Server.Services
 
             if (solarSystems.Count > 0)
             {
-                SolarSystem? solarSystemToUpdate = solarSystems.Find(s => s.SolarSystemID == solarSystemID);
+                SolarSystem? solarSystemToUpdate = solarSystems.Find(s => s.Id == solarSystemID);
 
                 if (solarSystemToUpdate != null)
                 {
@@ -115,7 +115,7 @@ namespace EvoPlanet.Server.Services
 
             if (solarSystems.Count > 0)
             {
-                SolarSystem? solarSystemToDelete = solarSystems.Find(s => s.SolarSystemID == solarSystemID);
+                SolarSystem? solarSystemToDelete = solarSystems.Find(s => s.Id == solarSystemID);
 
                 if (solarSystemToDelete != null)
                 {
