@@ -54,11 +54,11 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 ## Development agreements
 
 - Solid principles
-S: Single Responsibility Principle (SRP)
-O: Open-closed Principle (OCP)
-L: Liskov substitution Principle (LSP)
-I: Interface Segregation Principle (ISP)
-D: Dependency Inversion Principle (DIP)
+1. S: Single Responsibility Principle (SRP)
+2. O: Open-closed Principle (OCP)
+3. L: Liskov substitution Principle (LSP)
+4. I: Interface Segregation Principle (ISP)
+5. D: Dependency Inversion Principle (DIP)
 
 ---
 
