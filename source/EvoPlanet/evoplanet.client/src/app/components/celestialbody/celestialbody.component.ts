@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CelestialBodyService } from '../../services/celestial-body/celestial-body.service';
-import { Planet, PlanetSystem } from '../../types';
+import { Planet } from '../../types';
 
 @Component({
   selector: 'app-celestialbody',

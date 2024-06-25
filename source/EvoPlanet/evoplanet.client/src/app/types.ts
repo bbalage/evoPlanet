@@ -1,10 +1,4 @@
 //TODO: Waiting for backend to adapt the vector class
-export interface Vector
-{
-  X: number;
-  Y: number;
-}
-
 export interface Planet
 {
   CelestialBodyID: string;
@@ -13,8 +7,28 @@ export interface Planet
   Mass: number;
 }
 
-export interface PlanetSystem
+export interface Coordinate
 {
-  //Maybe make it an observable
-  Planets?: Array<Planet>;
+  PX: number;
+  PY: number;
+}
+
+export interface VelocityVector
+{
+  VX: number;
+  VY: number;
+}
+
+export interface CelestialBodyReference
+{
+  CelestialBodyID: string;
+  Coordinate: Coordinate;
+  Velocity: VelocityVector;
+}
+
+export interface SolarSystem
+{
+  Id?: string;
+  Name?: string;
+  CelestialBodies?: Array<CelestialBodyReference>;
 }

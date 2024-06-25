@@ -27,6 +27,7 @@ namespace EvoPlanet.Server.Services
 
         public async Task<SolarSystem> CreateAsync(SolarSystem sSys)
         {
+            //Always add celestialbodies with ID check on frontend!
             await _sSystem.InsertOneAsync(sSys);
             return sSys;
         }

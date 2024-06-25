@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PlanetSystem } from '../../types';
+import { SolarSystem } from '../../types';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class SolarSystemService {
 
   //TODO: Change link if it doesn't work
 
-getSolarSystem(): Observable<PlanetSystem> {
-  return this.http.get<PlanetSystem>('https://localhost:7081/api/SolarSystem');
+  getSolarSystem() {
+    return this.http.get<Array<SolarSystem>>('https://localhost:7081/api/SolarSystem/mongo');
   }
 }
