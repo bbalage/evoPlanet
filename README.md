@@ -1,4 +1,4 @@
-# evoPlanet
+# :full_moon: evoPlanet
 
 The evoPlanet project's GitHub Pages is available [here](https://bbalage.github.io/evoPlanet/).
 
