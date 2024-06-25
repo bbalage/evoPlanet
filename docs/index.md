@@ -61,32 +61,223 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 1.  **I: Interface Segregation Principle** (ISP)
 1.  **D: Dependency Inversion Principle** (DIP)
 
-- **S: Single Responsibility Principle**
+**S: Single Responsibility Principle**
 
 Every software module should have only one reason to change.
 
 Example:
 
- ```csharp
-    public class UserService
-    {
-       EmailService _emailService;
-       DbContext _dbContext;
-       public UserService(EmailService aEmailService, DbContext aDbContext)
-       {
-          _emailService = aEmailService;
-          _dbContext = aDbContext;
-       }
-       public void Register(string email, string password)
-       {
-          if (!_emailService.ValidateEmail(email))
-             throw new ValidationException("Email is not an email");
-             var user = new User(email, password);
-             _dbContext.Save(user);
-             emailService.SendEmail(new MailMessage("myname@mydomain.com", email) {Subject="Hi. How are you!"});
-       }
-    }
- ```
+```csharp
+  public class UserService
+  {
+     EmailService _emailService;
+     DbContext _dbContext;
+     public UserService(EmailService aEmailService, DbContext aDbContext)
+     {
+        _emailService = aEmailService;
+        _dbContext = aDbContext;
+     }
+     public void Register(string email, string password)
+     {
+        if (!_emailService.ValidateEmail(email))
+           throw new ValidationException("Email is not an email");
+           var user = new User(email, password);
+           _dbContext.Save(user);
+           emailService.SendEmail(new MailMessage("myname@mydomain.com", email) {Subject="Hi. How are you!"});
+     }
+  }
+```
+
+**O: Open-closed Principle**
+
+A software module/class is open for extension and closed for modification.
+
+Example:
+
+```csharp
+  public abstract class Shape
+  {
+     public abstract double Area();
+  }
+  public class Rectangle : Shape
+  {
+     public double Height {get;set;}
+     public double Width {get;set;}
+     public override double Area()
+     {
+        return Height * Width;
+     }
+  }
+  public class Circle : Shape
+  {
+     public double Radius {get;set;}
+     public override double Area()
+     {
+        return Radius * Radus * Math.PI;
+     }
+  }
+  public class AreaCalculator
+  {
+     public double TotalArea(Shape[] arrShapes)
+     {
+        double area=0;
+        foreach(var objShape in arrShapes)
+        {
+           area += objShape.Area();
+        }
+        return area;
+     }
+  }
+```
+
+**L: Liskov substitution Principle**
+
+You should be able to use any derived class instead of a parent class and have it behave in the same manner without modification.
+
+Example:
+
+```csharp
+  public interface IReadableSqlFile
+  {
+     string LoadText();
+  }
+  public interface IWritableSqlFile
+  {
+     void SaveText();
+  }
+  public class SqlFile : IWritableSqlFile, IReadableSqlFile
+  {
+     public string FilePath {get;set;}
+     public string FileText {get;set;}
+     public string LoadText()
+     {
+        /* Code to read text from sql file */
+     }
+     public void SaveText()
+     {
+        /* Code to save text into sql file */
+     }
+  }
+  public class SqlFileManager
+  {
+     public string GetTextFromFiles(List<IReadableSqlFile> aLstReadableFiles)
+     {
+        StringBuilder objStrBuilder = new StringBuilder();
+        foreach(var objFile in aLstReadableFiles)
+        {
+           objStrBuilder.Append(objFile.LoadText());
+        }
+        return objStrBuilder.ToString();
+     }
+     public void SaveTextIntoFiles(List<IWritableSqlFile> aLstWritableFiles)
+     {
+        foreach(var objFile in aLstWritableFiles)
+        {
+           objFile.SaveText();
+        }
+     }
+  } 
+```
+
+**I: Interface Segregation Principle**
+
+That clients should not be forced to implement interfaces they don't use. Instead of one fat interface, many small interfaces are preferred based on groups of methods, each serving one submodule.
+
+Example:
+
+```csharp
+  public interface IProgrammer
+  {
+     void WorkOnTask();
+  }
+  public interface ILead
+  {
+     void AssignTask();
+     void CreateSubTask();
+  }
+  public class Programmer : IProgrammer
+  {
+     public void WorkOnTask()
+     {
+        //code to implement to work on the Task.
+     }
+  }
+  public class Manager : ILead
+  {
+     public void AssignTask()
+     {
+        //Code to assign a Task
+     }
+     public void CreateSubTask()
+     {
+     //Code to create a sub taks from a task.
+     }
+  }
+  public class TeamLead : IProgrammer, ILead
+  {
+     public void AssignTask()
+     {
+        //Code to assign a Task
+     }
+     public void CreateSubTask()
+     {
+        //Code to create a sub task from a task.
+     }
+     public void WorkOnTask()
+     {
+        //code to implement to work on the Task.
+     }
+  }
+```
+
+**D: Dependency Inversion Principle**
+
+One should depend upon abstractions, not concretions. High-level modules/classes should not depend on low-level modules/classes.
+
+Example:
+
+```csharp
+  public interface IMessage
+  {
+      void SendMessage();
+  }
+  public class Email : IMessage
+  {
+      public string ToAddress { get; set; }
+      public string Subject { get; set; }
+      public string Content { get; set; }
+      public void SendMessage()
+      {
+          //Send email
+      }
+  }
+  public class SMS : IMessage
+  {
+      public string PhoneNumber { get; set; }
+      public string Message { get; set; }
+      public void SendMessage()
+      {
+          //Send sms
+      }
+  }
+  public class Notification
+  {
+      private ICollection<IMessage> _messages;
+  
+      public Notification(ICollection<IMessage> messages)
+      {
+          this._messages = messages;
+      }
+      public void Send()
+      {
+          foreach(var message in _messages)
+          {
+              message.SendMessage();
+          }
+      }
+  }
+```
+
 ---
 
 ## Development tools
