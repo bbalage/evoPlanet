@@ -1,6 +1,6 @@
-# 🌕 evoPlanet
+# evoPlanet
 
-## :gem: Introduction
+## Introduction
 
 The evoPlanet project's GitHub repository can be found [here](https://github.com/bbalage/evoPlanet/).
 
