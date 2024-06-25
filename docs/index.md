@@ -53,7 +53,7 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 
 ## Development agreements
 
-- Solid principles
+- SOLID principles
   
 1.  **S: Single Responsibility Principle** (SRP)
 1.  **O: Open-closed Principle** (OCP)
