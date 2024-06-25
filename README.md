@@ -8,7 +8,7 @@ The created stellar setups can be shared online with other users, and they can a
 
 ---
 
-## Notes
+## :pencil: Notes
 
 Most important data of a planet:
 
