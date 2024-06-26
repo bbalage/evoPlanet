@@ -45,19 +45,19 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 
 ## Technnologies
 
-- Angular
+**Angular**
 
 ![Angular logo](angular-logo.png)
 
 Angular is an open-source, JavaScript framework written in TypeScript. Google maintains it, and its primary purpose is to develop single-page applications. 
   
-- ASP.NET
+**ASP.NET**
 
 ![aspnet logo](aspnet-logo.png)  
 
 ASP.NET is an open source web framework, created by Microsoft, for building modern web apps and services with .NET. ASP.NET is cross platform and runs on Windows, Linux, macOS, and Docker.
 
-- Unit Test
+**Unit Test**
 
 ![Unit_test](Unit_test_csharp.png)
 
