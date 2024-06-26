@@ -46,6 +46,11 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 ## Technnologies
 
 - Angular
+
+![Angular logo](angular-logo.png)
+
+Angular is an open-source, JavaScript framework written in TypeScript. Google maintains it, and its primary purpose is to develop single-page applications. 
+  
 - ASP.NET
 - Unit Test
 
