@@ -11,35 +11,25 @@
             Name:
           </td>
           <td>
-            Position:
-          </td>
-          <td>
-            Velocity:
-          </td>
-          <td>
-            Radius:
-          </td>
-          <td>
-            Mass:
+            Location details:
           </td>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let planet of planetSystem.Planets">
+        <tr *ngFor="let system of planetSystem">
           <td>
-            {{planet.Name}}
+            {{system.Name}}
           </td>
           <td>
-            {{planet.PX}} {{planet.PY}}
-          </td>
-          <td>
-            {{planet.VX}} {{planet.VY}}
-          </td>
-          <td>
-            {{planet.Radius}}
-          </td>
-          <td>
-            {{planet.Mass}}
+                <div *ngFor="let celestialbody of system.CelestialBodies">
+                  <div>
+                    {{celestialbody.Coordinate.PX}} {{celestialbody.Coordinate.PY}}
+                  </div>
+                  <div>
+                    <!-- {{celestialbody.Velocity.VX}} {{celestialbody.Velocity.VY}} -->
+                    VX VY
+                  </div>
+                </div>
           </td>
         </tr>
       </tbody>

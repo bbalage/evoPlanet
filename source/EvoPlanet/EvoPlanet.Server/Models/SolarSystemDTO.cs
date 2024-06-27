@@ -1,10 +1,13 @@
-﻿using System.Text.Json.Serialization;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using System.Text.Json.Serialization;
 
 namespace EvoPlanet.Server.Models
 {
     public class SolarSystemDTO
     {
-        [JsonPropertyName("SolarSystemID")]
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
         public Guid SolarSystemID { get; set; } = Guid.Empty;
 
         [JsonPropertyName("Name")]

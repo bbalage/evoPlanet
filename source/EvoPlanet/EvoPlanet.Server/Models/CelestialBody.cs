@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using MongoDB.Bson.Serialization.Attributes;
+using MongoDB.Bson;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace EvoPlanet.Server.Models
 {
     public class CelestialBody
     {
-        
-        [JsonPropertyName("CelestialBodyID")]
-        public Guid CelestialBodyID { get; set; } = Guid.Empty;
+        [BsonId]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string? Id { get; set; }
 
         [JsonPropertyName("Name")]
         public string Name { get; set; } = string.Empty;

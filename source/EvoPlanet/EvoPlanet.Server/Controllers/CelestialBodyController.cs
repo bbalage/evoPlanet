@@ -35,7 +35,7 @@ namespace EvoPlanet.Server.Controllers
         {
             try
             {
-                var celestialBody = _celestialBodyService.GetAllCelestialBodies().FirstOrDefault(c => c.CelestialBodyID == celestialBodyID);
+                var celestialBody = _celestialBodyService.GetAllCelestialBodies().FirstOrDefault(c => c.Id == celestialBodyID.ToString());
                 if (celestialBody != null)
                 {
                     return Ok(celestialBody);
@@ -61,7 +61,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPut("json/{celestialBodyID}")]
-        public IActionResult UpdateCelestialBody(Guid celestialBodyID, [FromBody] CelestialBody updatedCelestialBody)
+        public IActionResult UpdateCelestialBody(string celestialBodyID, [FromBody] CelestialBody updatedCelestialBody)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpDelete("json/{celestialBodyID}")]
-        public IActionResult DeleteCelestialBody(Guid celestialBodyID)
+        public IActionResult DeleteCelestialBody(string celestialBodyID)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace EvoPlanet.Server.Controllers
         public async Task<IActionResult> GetCelestialBodyByIdMongo(Guid celestialBodyID)
         {
             var celestialBodies = await _celestialBodyService.GetAllAsync();
-            var celestialBody = celestialBodies.FirstOrDefault(c => c.CelestialBodyID == celestialBodyID);
+            var celestialBody = celestialBodies.FirstOrDefault(c => c.Id == celestialBodyID.ToString());
             if (celestialBody != null)
             {
                 return Ok(celestialBody);
@@ -116,6 +116,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPost("mongo")]
+        //Does this recognise without the id tag?
         public async Task<IActionResult> AddCelestialBodyMongo([FromBody] CelestialBody newCelestialBody)
         {
             var createdCelestialBody = await _celestialBodyService.CreateAsync(newCelestialBody);
@@ -124,7 +125,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPut("mongo/{celestialBodyID}")]
-        public async Task<IActionResult> UpdateCelestialBodyMongo(Guid celestialBodyID, [FromBody] CelestialBody updatedCelestialBody)
+        public async Task<IActionResult> UpdateCelestialBodyMongo(string celestialBodyID, [FromBody] CelestialBody updatedCelestialBody)
         {
             try
             {
@@ -139,7 +140,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpDelete("mongo/{celestialBodyID}")]
-        public async Task<IActionResult> DeleteCelestialBodyMongo(Guid celestialBodyID)
+        public async Task<IActionResult> DeleteCelestialBodyMongo(string celestialBodyID)
         {
             try
             {

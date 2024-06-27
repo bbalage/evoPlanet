@@ -35,7 +35,7 @@ namespace EvoPlanet.Server.Controllers
         {
             try
             {
-                var solarSystem = _solarSystemService.GetAllSolarSystems().FirstOrDefault(c => c.SolarSystemID == solarSystemID);
+                var solarSystem = _solarSystemService.GetAllSolarSystems().FirstOrDefault(c => c.Id == solarSystemID.ToString());
                 if (solarSystem != null)
                 {
                     return Ok(solarSystem);
@@ -61,7 +61,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPut("json/{solarSystemID}")]
-        public IActionResult UpdateSolarSystem(Guid solarSystemID, [FromBody] SolarSystem updatedSolarSystem)
+        public IActionResult UpdateSolarSystem(string solarSystemID, [FromBody] SolarSystem updatedSolarSystem)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpDelete("json/{solarSystemID}")]
-        public IActionResult DeleteSolarSystem(Guid solarSystemID)
+        public IActionResult DeleteSolarSystem(string solarSystemID)
         {
             try
             {
@@ -103,7 +103,7 @@ namespace EvoPlanet.Server.Controllers
         public async Task<IActionResult> GetSolarSystemByIdMongo(Guid solarSystemID)
         {
             var solarSystems = await _solarSystemService.GetAllAsync();
-            var solarSystem = solarSystems.FirstOrDefault(c => c.SolarSystemID == solarSystemID);
+            var solarSystem = solarSystems.FirstOrDefault(c => c.Id == solarSystemID.ToString());
             if (solarSystem != null)
             {
                 return Ok(solarSystem);
@@ -124,7 +124,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpPut("mongo/{solarSystemID}")]
-        public async Task<IActionResult> UpdateSolarSystemMongo(Guid solarSystemID, [FromBody] SolarSystem updatedSolarSystem)
+        public async Task<IActionResult> UpdateSolarSystemMongo(string solarSystemID, [FromBody] SolarSystem updatedSolarSystem)
         {
             try
             {
@@ -139,7 +139,7 @@ namespace EvoPlanet.Server.Controllers
 
         [EnableCors("_myAllowSpecificOrigins")]
         [HttpDelete("mongo/{solarSystemID}")]
-        public async Task<IActionResult> DeleteSolarSystemMongo(Guid solarSystemID)
+        public async Task<IActionResult> DeleteSolarSystemMongo(string solarSystemID)
         {
             try
             {

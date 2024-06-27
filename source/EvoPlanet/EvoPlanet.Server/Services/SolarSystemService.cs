@@ -27,14 +27,14 @@ namespace EvoPlanet.Server.Services
 
         public async Task<SolarSystem> CreateAsync(SolarSystem sSys)
         {
-            sSys.SolarSystemID = Guid.NewGuid();
+            //Always add celestialbodies with ID check on frontend!
             await _sSystem.InsertOneAsync(sSys);
             return sSys;
         }
 
-        public async Task UpdateAsync(Guid solarSystemId, SolarSystem updatedSolarSystem)
+        public async Task UpdateAsync(string solarSystemId, SolarSystem updatedSolarSystem)
         {
-            var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
+            var filter = Builders<SolarSystem>.Filter.Eq(s => s.Id, solarSystemId);
             var result = await _sSystem.ReplaceOneAsync(filter, updatedSolarSystem);
 
             if (result.MatchedCount == 0)
@@ -43,9 +43,9 @@ namespace EvoPlanet.Server.Services
             }
         }
 
-        public async Task DeleteAsync(Guid solarSystemId)
+        public async Task DeleteAsync(string solarSystemId)
         {
-            var filter = Builders<SolarSystem>.Filter.Eq(s => s.SolarSystemID, solarSystemId);
+            var filter = Builders<SolarSystem>.Filter.Eq(s => s.Id, solarSystemId);
             var result = await _sSystem.DeleteOneAsync(filter);
 
             if (result.DeletedCount == 0)
@@ -90,13 +90,13 @@ namespace EvoPlanet.Server.Services
             SaveData(solarSystems);
         }
 
-        public void UpdateSolarSystem(Guid solarSystemID, SolarSystem updatedSolarSystem)
+        public void UpdateSolarSystem(string solarSystemID, SolarSystem updatedSolarSystem)
         {
             List<SolarSystem> solarSystems = GetAllSolarSystems();
 
             if (solarSystems.Count > 0)
             {
-                SolarSystem? solarSystemToUpdate = solarSystems.Find(s => s.SolarSystemID == solarSystemID);
+                SolarSystem? solarSystemToUpdate = solarSystems.Find(s => s.Id == solarSystemID);
 
                 if (solarSystemToUpdate != null)
                 {
@@ -110,13 +110,13 @@ namespace EvoPlanet.Server.Services
             throw new InvalidOperationException("SolarSystem not found.");
         }
 
-        public void DeleteSolarSystem(Guid solarSystemID)
+        public void DeleteSolarSystem(string solarSystemID)
         {
             List<SolarSystem> solarSystems = GetAllSolarSystems();
 
             if (solarSystems.Count > 0)
             {
-                SolarSystem? solarSystemToDelete = solarSystems.Find(s => s.SolarSystemID == solarSystemID);
+                SolarSystem? solarSystemToDelete = solarSystems.Find(s => s.Id == solarSystemID);
 
                 if (solarSystemToDelete != null)
                 {
