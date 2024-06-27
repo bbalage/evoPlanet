@@ -36,10 +36,10 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 
 ## Our works
 
-- Hauer Attila (link: our_works.md)
-- Katona Bence (link: our_works.md)
-- Nagy Bence (link: our_works.md)
-- Szkárosi Szilárd (link: our_works.md)
+- [Hauer Attila](/evoPlanet/our_works)
+- [Katona Bence](/evoPlanet/our_works)
+- [Nagy Bence](/evoPlanet/our_works)
+- [Szkárosi Szilárd](/evoPlanet/our_works)
 
 ---
 
