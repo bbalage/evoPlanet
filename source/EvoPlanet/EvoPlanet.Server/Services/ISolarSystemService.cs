@@ -21,5 +21,7 @@ namespace EvoPlanet.Server.Services
         Task UpdateAsync(string solarSystemId, SolarSystem updatedSolarSystem);
 
         Task DeleteAsync(string solarSystemId);
+
+        Task<SolarSystem> GetById(string id);
     }
 }

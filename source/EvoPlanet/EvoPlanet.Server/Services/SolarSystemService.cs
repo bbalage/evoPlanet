@@ -32,6 +32,11 @@ namespace EvoPlanet.Server.Services
             return sSys;
         }
 
+        public async Task<SolarSystem> GetById(string id)
+        {
+            return await _sSystem.Find<SolarSystem>(ss => ss.Id == id).FirstOrDefaultAsync();
+        }
+
         public async Task UpdateAsync(string solarSystemId, SolarSystem updatedSolarSystem)
         {
             var filter = Builders<SolarSystem>.Filter.Eq(s => s.Id, solarSystemId);
