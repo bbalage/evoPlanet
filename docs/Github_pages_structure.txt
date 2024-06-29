@@ -1,0 +1,29 @@
+Github pages felépítése:
+- Bevezető / Introduction
+- Ötleteteink / Our ideas
+	- ER (er.md)
+        - Features (features.md)
+        - Frontend (frontend.md)	
+- Elért eredményeink / Our results
+	- Backend (Json, MongoDB) (backend.md)
+	- Pages (pages.md)
+	- Unit test (unit_test.md)		
+- Jövőbeli feladataink / Our future tasks
+       	- ?
+- Munkáink / Our works
+ 	- Hauer Attila (hivatkozás: our_works.md)
+	- Katona Bence (hivatkozás: our_works.md)
+	- Nagy Bence   (hivatkozás: our_works.md)
+	- Szkárosi Szilárd (hivatkozás: our_works.md)
+- Technológiák / Technologies
+	- Angular (hivatkozás: index.md)
+        - ASP.NET (hivatkozás: index.md)
+	- Unit test (hivatkozás: index.md)
+- Development agreements
+	- SOLID	principles (hivatkozás: index.md) 
+- Development tools
+	- Visual Studio 2022 (hivatkozás: index.md)
+	- MongoDBCompass (hivatkozás: index.md)
+	- Postman (hivatkozás: index.md)
+	- SwaggerUI (hivatkozás: index.md)
+
