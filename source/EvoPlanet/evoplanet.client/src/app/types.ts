@@ -23,12 +23,16 @@ export interface CelestialBodyReference
 {
   CelestialBodyID: string;
   Coordinate: Coordinate;
-  Velocity: VelocityVector;
+  VelocityVector: VelocityVector;
+}
+
+export interface IdHandler{
+  id: string;
 }
 
 export interface SolarSystem
 {
-  Id?: string;
+  id: string;
   Name?: string;
   CelestialBodies?: Array<CelestialBodyReference>;
 }

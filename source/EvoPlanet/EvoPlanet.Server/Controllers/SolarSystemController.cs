@@ -4,10 +4,18 @@ using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace EvoPlanet.Server.Controllers
 {
+    public class IdHandler
+    {
+        [JsonPropertyName("id")]
+        public string id { get; set; } = string.Empty;
+    }
+
+
     [EnableCors("_myAllowSpecificOrigins")]
     [ApiController]
     [Route("api/[controller]")]
@@ -98,12 +106,13 @@ namespace EvoPlanet.Server.Controllers
             return Ok(solarSystems);
     }
 
+
+        //example: https://localhost:7081/api/SolarSystem/mongo/getOne667adf86b7477c4b4fc38de9
         [EnableCors("_myAllowSpecificOrigins")]
-        [HttpGet("mongo/{solarSystemID}")]
-        public async Task<IActionResult> GetSolarSystemByIdMongo(Guid solarSystemID)
+        [HttpPost("mongo/getOne")]
+        public async Task<IActionResult> GetSolarSystemByIdMongo([FromBody]IdHandler handler)
         {
-            var solarSystems = await _solarSystemService.GetAllAsync();
-            var solarSystem = solarSystems.FirstOrDefault(c => c.Id == solarSystemID.ToString());
+            var solarSystem = await _solarSystemService.GetById(handler.id);
             if (solarSystem != null)
             {
                 return Ok(solarSystem);
