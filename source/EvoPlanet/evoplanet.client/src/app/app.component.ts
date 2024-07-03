@@ -14,10 +14,10 @@ export class AppComponent implements OnInit {
   constructor(private http: HttpClient) {}
 
   ngOnInit() {
-    this.getPlanet();
+    //this.getPlanet();
   }
 
-  getPlanet() {
+  /*getPlanet() {
     this.http.get<Planet>('https://localhost:7081/api/Planet').subscribe(
       (result) => {
         this.planet = result;
@@ -27,7 +27,7 @@ export class AppComponent implements OnInit {
         console.error(error);
       }
     );
-  }
+  }*/
 
 
   title = 'evoplanet.client';

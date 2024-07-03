@@ -13,4 +13,8 @@ export class CelestialBodyService {
   getCelestialBodies() {
     return this.http.get<Array<Planet>>('https://localhost:7081/api/CelestialBody/mongo');
   }
+
+  postCelestialBody(planet: Planet) {
+    return this.http.post<Planet>('https://localhost:7081/api/CelestialBody/mongo', planet);
+  }
 }
