@@ -1,6 +1,6 @@
 # evoPlanet
 
-## :full_moon: Introduction
+## 🌕 Introduction
 
 The evoPlanet project's GitHub repository can be found [here](https://github.com/bbalage/evoPlanet/).
 
@@ -10,14 +10,14 @@ The created stellar setups can be shared online with other users, and they can a
 
 ---
 
-## :magic_wand: Our ideas
+## 💡 Our ideas
 
 - [ER](/evoPlanet/er)
 - [Frontend](/evoPlanet/frontend)
 
 ---
 
-## :pencil: Our tasks
+## ✏️ Our tasks
 
 Create an end-to-end flow of querying a single planet system! See the image below!
 
@@ -25,7 +25,7 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 
 ---
 
-## :dart: Workflow
+## 🎯 Workflow
 
 1. **The Angular Component** calls the service (either due to a button push or automatically).
 2. **The Angular Service** makes an HTTP request to the backend, sending the name of the planet system it is asking for.
@@ -37,7 +37,7 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 
 ---
 
-## :computer: Technnologies
+## 💻 Technnologies
 
 ### **Angular**
 
@@ -53,7 +53,7 @@ ASP.NET is an open source web framework, created by Microsoft, for building mode
 
 ---
 
-## :floppy_disk: Test
+## 📐 Test
 
 ### **Unit Test**
 
@@ -63,7 +63,7 @@ Unit testing is a software testing technique where individual units or component
 
 ---
 
-## :fountain_pen: Development agreements
+## 📚 Development agreements
 
 ### **SOLID principles**
   
@@ -292,7 +292,7 @@ Example:
 
 ---
 
-## :bulb: Development tools
+## 🔧 Development tools
 
 ### **Visual Studio 2022**
   
