@@ -1,6 +1,6 @@
 # evoPlanet
 
-## Introduction
+## :full_moon: Introduction
 
 The evoPlanet project's GitHub repository can be found [here](https://github.com/bbalage/evoPlanet/).
 
@@ -10,23 +10,14 @@ The created stellar setups can be shared online with other users, and they can a
 
 ---
 
-## Our ideas
+## :magic_wand: Our ideas
 
 - [ER](/evoPlanet/er)
-- [Features](/evoPlanet/features)
 - [Frontend](/evoPlanet/frontend)
 
 ---
 
-## Our results
-
-- Backend (Json, MongoDB) (backend.md)
-- Pages (pages.md)
-- Unit test (unit_test.md)
-
----
-
-## Our future tasks
+## :pencil: Our tasks
 
 Create an end-to-end flow of querying a single planet system! See the image below!
 
@@ -34,16 +25,19 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 
 ---
 
-## Our works
+## :dart: Workflow
 
-- [Hauer Attila](/evoPlanet/our_works)
-- [Katona Bence](/evoPlanet/our_works)
-- [Nagy Bence](/evoPlanet/our_works)
-- [Szkárosi Szilárd](/evoPlanet/our_works)
+1. **The Angular Component** calls the service (either due to a button push or automatically).
+2. **The Angular Service** makes an HTTP request to the backend, sending the name of the planet system it is asking for.
+3. **The ASP.NET Controller** receives the request and calls on the C# Service, passing the name of the planet system as an argument.
+4. **The C# Service** looks for a JSON file and DB (in a given directory) containing the data of the planet system. It reads the file data and returns it to the Controller.
+5. **The Controller** responds with the PlanetSystem's data.
+6. **The Angular Service** receives the data and returns it to the Angular Component.
+7. **The Component** renders the planet system data on a webpage (a simple text display is sufficient).
 
 ---
 
-## Technnologies
+## :computer: Technnologies
 
 ### **Angular**
 
@@ -57,6 +51,10 @@ Angular is an open-source, JavaScript framework written in TypeScript. Google ma
 
 ASP.NET is an open source web framework, created by Microsoft, for building modern web apps and services with .NET. ASP.NET is cross platform and runs on Windows, Linux, macOS, and Docker.
 
+---
+
+## :floppy_disk: Test
+
 ### **Unit Test**
 
 ![Unit_test](Unit_test_csharp.png)
@@ -65,9 +63,9 @@ Unit testing is a software testing technique where individual units or component
 
 ---
 
-## Development agreements
+## :fountain_pen: Development agreements
 
-- SOLID principles
+### **SOLID principles**
   
 1.  **S: Single Responsibility Principle** (SRP)
 1.  **O: Open-closed Principle** (OCP)
@@ -294,21 +292,19 @@ Example:
 
 ---
 
-## Development tools
+## :bulb: Development tools
 
-- Visual Studio 2022
-- MongoDBCompass
-- Postman
-- SwaggerUI
+### **Visual Studio 2022**
+  
+![VS2022 logo](VisualStudio2022Logo.png)
+  
+### **MongoDB Compass**
 
----
+![MongoDB Compass](MongoDBCompass.png)
 
-## Workflow
+### **Postman**
 
-1. **The Angular Component** calls the service (either due to a button push or automatically).
-2. **The Angular Service** makes an HTTP request to the backend, sending the name of the planet system it is asking for.
-3. **The ASP.NET Controller** receives the request and calls on the C# Service, passing the name of the planet system as an argument.
-4. **The C# Service** looks for a JSON file (in a given directory) containing the data of the planet system. It reads the file data and returns it to the Controller.
-5. **The Controller** responds with the PlanetSystem's data.
-6. **The Angular Service** receives the data and returns it to the Angular Component.
-7. **The Component** renders the planet system data on a webpage (a simple text display is sufficient).
+### **SwaggerUI**
+
+![SwaggerUI](SwaggerUI.png)
+  
