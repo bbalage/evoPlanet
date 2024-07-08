@@ -20,7 +20,8 @@ export class SolarSystemService {
 
   //TODO: Change link if it doesn't work
 
-  getSolarSystem() {
+  getSolarSystem(): Observable<Array<SolarSystem>>
+  {
     return this.http.get<Array<SolarSystem>>('https://localhost:7081/api/SolarSystem/mongo');
   }
   getSolarSystemById(handler: IdHandler): Observable<SolarSystem> {
