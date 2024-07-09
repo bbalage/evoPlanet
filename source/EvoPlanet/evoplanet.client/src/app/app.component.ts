@@ -7,27 +7,10 @@ import { Planet } from './types';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent  {
   sidebarExpanded: boolean = true;
-  public planet!: Planet;
-
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {
-    //this.getPlanet();
-  }
-
-  /*getPlanet() {
-    this.http.get<Planet>('https://localhost:7081/api/Planet').subscribe(
-      (result) => {
-        this.planet = result;
-        console.log(this.planet.Name);
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }*/
 
 
   title = 'evoplanet.client';

@@ -16,4 +16,6 @@ namespace EvoPlanet.Server.Models
         [JsonPropertyName("CelestialBodies")]
         public List<CelestialBodyReference>? CelestialBodies { get; set;}
     }
+
+
 }

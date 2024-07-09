@@ -17,7 +17,7 @@ export class CelestialbodyComponent implements OnInit {
     Name: '',
     Radius: 0,
     Mass: 0,
-    CelestialBodyID: ''
+    id: ''
   };
 
   ngOnInit(): void {
@@ -38,7 +38,7 @@ export class CelestialbodyComponent implements OnInit {
     this.celestialBodyService.postCelestialBody(this.newPlanet).subscribe({
       next: (planet) => {
         this.celestialBodies.push(planet);
-        this.newPlanet = { CelestialBodyID: '', Name: '', Radius: 0, Mass: 0 }; // Reset form
+        this.newPlanet = { id: '', Name: '', Radius: 0, Mass: 0 }; // Reset form
         form.resetForm();
       },
       error: (err) => {

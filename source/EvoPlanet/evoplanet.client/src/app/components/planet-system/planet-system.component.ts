@@ -25,13 +25,16 @@ export class PlanetSystemComponent implements OnInit {
 
   ngOnInit(): void
   {
-    /*this.solarSystemService.getSolarSystem().subscribe({
+    
+    this.solarSystemService.getSolarSystem().subscribe({
       next: (item: Array<SolarSystem>) => {
         this.planetSystem = item;
-       
       }
-    });*/
+    });
+  
   }
+
+  
 }
 
 
