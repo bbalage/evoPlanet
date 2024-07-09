@@ -1,4 +1,4 @@
-# evoPlanet
+# :full_moon: evoPlanet
 
 The evoPlanet project's GitHub Pages is available [here](https://bbalage.github.io/evoPlanet/).
 
@@ -8,7 +8,7 @@ The created stellar setups can be shared online with other users, and they can a
 
 ---
 
-## Notes
+## :pencil: Notes
 
 Most important data of a planet:
 

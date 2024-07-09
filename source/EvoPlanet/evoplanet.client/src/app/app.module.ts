@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HomeComponent } from './components/home/home.component';
 import { CelestialbodyComponent } from './components/celestialbody/celestialbody.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { CelestialbodyComponent } from './components/celestialbody/celestialbody
     CelestialbodyComponent
   ],
   imports: [
-    BrowserModule, HttpClientModule, NgbModule, AppRoutingModule
+    BrowserModule, HttpClientModule, NgbModule, AppRoutingModule, FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
