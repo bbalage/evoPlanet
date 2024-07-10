@@ -304,7 +304,7 @@ Example:
 
 ### **Postman**
 
-![Ppstman_logo](postman.jpg)
+![Ppstman_logo](postman.png)
 
 ### **SwaggerUI**
 
