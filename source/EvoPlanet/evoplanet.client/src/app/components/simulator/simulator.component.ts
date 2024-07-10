@@ -82,10 +82,10 @@ export class SimulatorComponent implements OnInit {
 
     this.canvas = <HTMLCanvasElement>document.getElementById("simulator-canvas");
 
-    this.canvas.width = 800
-    this.canvas.height = 600;
-    this.canvas.style.width = "600px";
-    this.canvas.style.height = "800px";
+    this.canvas.width = 900
+    this.canvas.height = 700;
+    this.canvas.style.width = "900px";
+    this.canvas.style.height = "700px";
   }
 
   Draw(): void {
