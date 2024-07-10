@@ -1,6 +1,6 @@
 <div class="container">
   <div class="container">
-    <h2>List of celestial bodies:</h2>
+    <h2 style="color:white">List of celestial bodies:</h2>
     <table class="table table-striped table-hover table-dark table-bordered" style="width:100%">
       <thead>
         <tr>
@@ -19,9 +19,9 @@
     </table>
   </div>
 
-  <div class="container mt-5">
+  <div class="container mt-5" style="justify-content:center; display:flex">
     <div class="col-lg-6">
-      <h2>Add New Planet</h2>
+      <h2 style="color:white">Add New Planet</h2>
       <form #planetForm="ngForm" (ngSubmit)="addPlanet(planetForm)">
         <div class="form-group mt-2" style="text-align: left;">
           <label for="name">Name:</label>
@@ -38,7 +38,7 @@
           <input id="mass" [(ngModel)]="newPlanet.Mass" name="mass" type="number" class="form-control" required>
           <div *ngIf="planetForm.submitted && !newPlanet.Mass" class="text-danger">Mass is required.</div>
         </div>
-        <button type="submit" class="btn btn-primary mt-3">Add Planet</button>
+        <button type="submit"  class="btn btn-dark mt-3">Add Planet</button>
       </form>
     </div>
   </div>

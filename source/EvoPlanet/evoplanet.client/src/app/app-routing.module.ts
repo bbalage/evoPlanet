@@ -9,7 +9,7 @@ import { CelestialbodyComponent } from './components/celestialbody/celestialbody
 export const routes: Routes = [
 
   {
-    path: 'home',
+    path: '',
     component: HomeComponent
   },
   {

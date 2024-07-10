@@ -4,7 +4,7 @@
       <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas offcanvas-start" style="background-color:darkgray" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -12,7 +12,7 @@
         <div class="d-flex justify-content-start">
           <ul class="  flex-grow-1 d-flex flex-column">
             <li class=" p-2">
-              <a class="nav-link active" style="text-align:start" aria-current="page" href="home">Home</a>
+              <a class="nav-link active" style="text-align:start" aria-current="page" href="">Home</a>
             </li>
             <li class=" p-2">
               <a class="nav-link" style="text-align:start" href="/celestialbodies">Celestialbodies</a>
@@ -27,8 +27,8 @@
       </div>
     </div>
   </nav>
-
-  <div class="content" [ngClass]="{ 'sidebarExpanded': sidebarExpanded }">
+  <!--background-color:black-->
+  <div style="" class="content" [ngClass]="{ 'sidebarExpanded': sidebarExpanded }">
     <router-outlet></router-outlet>
   </div>
 </div>

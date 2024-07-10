@@ -62,7 +62,6 @@ export class SimulatorComponent implements OnInit {
               this.positions.push(new vecti.Vector(celestialbody.Coordinate.PX, celestialbody.Coordinate.PY));
             }
           );
-
         }
       }
     );
