@@ -1,7 +1,6 @@
 import * as vecti from "vecti";
 
-export interface Planet
-{
+export interface Planet {
   id: string;
   Name: string;
   Radius: number;
@@ -16,31 +15,27 @@ export interface CelestialBody {
   VelocityVector: VelocityVector;
 }
 
-export interface Coordinate
-{
+export interface Coordinate {
   PX: number;
   PY: number;
 }
 
-export interface VelocityVector
-{
+export interface VelocityVector {
   VX: number;
   VY: number;
 }
 
-export interface CelestialBodyReference
-{
+export interface CelestialBodyReference {
   celestialBodyID: string;
   Coordinate: Coordinate;
   VelocityVector: VelocityVector;
 }
 
-export interface IdHandler{
+export interface IdHandler {
   id: string;
 }
 
-export interface SolarSystem
-{
+export interface SolarSystem {
   id: string;
   Name?: string;
   CelestialBodies: Array<CelestialBodyReference>;
@@ -53,11 +48,10 @@ export class CollisionDetector {
       solarSystem.CelestialBodies?.find(x => x.celestialBodyID == c1)?.Coordinate.PY || 0);
     const vectB: vecti.Vector = new vecti.Vector(solarSystem.CelestialBodies?.find(x => x.celestialBodyID == c2)?.Coordinate.PX || 0,
       solarSystem.CelestialBodies?.find(x => x.celestialBodyID == c2)?.Coordinate.PY || 0);
-    //Does this work?????????????
     const Distance = vectA.normalize();
     const radius1: number = celestialBodies.find(x => x.id == c1)?.Radius || 0;
     const radius2: number = celestialBodies.find(x => x.id == c2)?.Radius || 0;
-    // radius1 + radius2 > Distance;
+    //return radius1 + radius2 > Distance;
     return false;
   }
 }
@@ -69,31 +63,18 @@ export class GravityCalculatorImpl {
   }
   CalcForce(celestial1: CelestialBody, celestial2: CelestialBody): vecti.Vector {
     var vector1: vecti.Vector = new vecti.Vector(celestial1.Coordinate.PX, celestial1.Coordinate.PY);
-    var vector2: vecti.Vector = new vecti.Vector(celestial2.Coordinate.PX, celestial2.Coordinate.PY)
+    var vector2: vecti.Vector = new vecti.Vector(celestial2.Coordinate.PX, celestial2.Coordinate.PY);
 
     const r: vecti.Vector = vector2.subtract(vector1);
-    console.log("The r value is:", r);
-    const gPart: number = -(this.G * celestial2.Mass!);
-    console.log("The g part is:", gPart);
-    const massPart: number = celestial1.Mass!;
-    console.log("The mass part is:", massPart);
-    const multiplyPart: vecti.Vector = r.multiply(massPart).multiply(gPart);
-    console.log("The multiply part is:", multiplyPart);
-    const normalizedPart: number = r.normalize().length();
-    console.log("The normalized part is:", normalizedPart);
-    const powerPart: number = Math.pow(normalizedPart, 3);
-    console.log(powerPart);
-    const force: vecti.Vector = multiplyPart.divide(powerPart);
-    console.log("Result:", force);
+    const distance = r.length();
+    const gPart: number = (this.G * celestial2.Mass * celestial1.Mass) / (distance * distance);
+    const force: vecti.Vector = r.normalize().multiply(gPart);
     return force;
-     
   }
 }
 
 export class SimulatorImpl {
-
   CelestialBodies: Array<CelestialBody> = [];
-
 
   SmashTypes(system: SolarSystem, planets: Array<Planet>): void {
     for (var i: number = 0; i < system.CelestialBodies.length; i++) {
@@ -109,47 +90,46 @@ export class SimulatorImpl {
         }
       }
     }
+    this.initializeVelocities();
+  }
+
+  initializeVelocities(): void {
+    const center = this.CelestialBodies[0]; // Assuming the first celestial body is the center
+    for (let i = 1; i < this.CelestialBodies.length; i++) {
+      const body = this.CelestialBodies[i];
+      const r = new vecti.Vector(body.Coordinate.PX - center.Coordinate.PX, body.Coordinate.PY - center.Coordinate.PY);
+      const distance = r.length();
+      const orbitalSpeed = Math.sqrt(center.Mass * 10 / distance); // Adjust the multiplier as needed
+      body.VelocityVector.VX = -orbitalSpeed * (r.y / distance);
+      body.VelocityVector.VY = orbitalSpeed * (r.x / distance);
+    }
   }
 
   Simulate(seconds: number): void {
-    //What parameters go here?
     var calculator: GravityCalculatorImpl = new GravityCalculatorImpl(10);
     var forceList: Array<vecti.Vector> = [];
-    this.CelestialBodies?.forEach(item =>
-      {
-        forceList.push(new vecti.Vector(0,0));   
-      }
-    );
+    this.CelestialBodies.forEach(() => forceList.push(new vecti.Vector(0, 0)));
 
-    for (var i: number = 0; i < this.CelestialBodies.length!; i++) {
-      for (var j: number = i; j < this.CelestialBodies.length!; j++) {
-        if (i == j) {
-          continue;
-        }
+    for (let i = 1; i < this.CelestialBodies.length; i++) {
+      for (let j = 0; j < this.CelestialBodies.length; j++) {
+        if (i === j) continue;
         var forceVector: vecti.Vector = calculator.CalcForce(this.CelestialBodies[i], this.CelestialBodies[j]);
-        forceList.push(forceVector);
+        forceList[i] = forceList[i].add(forceVector);
       }
+    }
 
-      for (var i: number = 0; i < this.CelestialBodies.length!; i++)
-      {
-        var acceleration: vecti.Vector = forceList[i].divide(this.CelestialBodies[i].Mass);
-        acceleration.multiply(seconds);
-        this.CelestialBodies[i].VelocityVector.VX += acceleration.x;
-        this.CelestialBodies[i].VelocityVector.VY += acceleration.y;
-      }
+    for (let i = 1; i < this.CelestialBodies.length; i++) {
+      var acceleration: vecti.Vector = forceList[i].divide(this.CelestialBodies[i].Mass);
+      acceleration = acceleration.multiply(seconds);
+      this.CelestialBodies[i].VelocityVector.VX += acceleration.x;
+      this.CelestialBodies[i].VelocityVector.VY += acceleration.y;
+    }
 
-      for (var i: number = 0; i < this.CelestialBodies.length; i++)
-      {
-        var velocity: vecti.Vector = new vecti.Vector(this.CelestialBodies[i].VelocityVector.VX, this.CelestialBodies[i].VelocityVector.VY);
-        velocity.multiply(seconds);
-        this.CelestialBodies[i].Coordinate.PX += velocity.x;
-        console.log("Calculated:");
-        console.log(this.CelestialBodies[i].Coordinate.PX);
-        this.CelestialBodies[i].Coordinate.PY += velocity.y;
-        console.log("Calculated:");
-        console.log(this.CelestialBodies[i].Coordinate.PY);
-
-      }
+    for (let i = 1; i < this.CelestialBodies.length; i++) {
+      var velocity: vecti.Vector = new vecti.Vector(this.CelestialBodies[i].VelocityVector.VX, this.CelestialBodies[i].VelocityVector.VY);
+      velocity = velocity.multiply(seconds);
+      this.CelestialBodies[i].Coordinate.PX += velocity.x;
+      this.CelestialBodies[i].Coordinate.PY += velocity.y;
     }
   }
 }
