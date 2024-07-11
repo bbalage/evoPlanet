@@ -45,7 +45,6 @@ export class SimulatorComponent implements OnInit {
   constructor() {
     this.celestialBodySprite = new Image();
     this.celestialBodySprite.src = "assets/logo.png";
-
   }
 
   ngOnInit(): void {
@@ -86,6 +85,7 @@ export class SimulatorComponent implements OnInit {
     this.canvas.height = 700;
     this.canvas.style.width = "900px";
     this.canvas.style.height = "700px";
+    this.canvas.style.backgroundColor = "Whi";
   }
 
   Draw(): void {
@@ -100,8 +100,8 @@ export class SimulatorComponent implements OnInit {
         this.celestialBodySprite,
         item.Coordinate.PX,
         item.Coordinate.PY,
-        20,
-        20
+        30,
+        30
       );
     });
 

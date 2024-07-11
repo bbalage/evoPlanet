@@ -90,10 +90,10 @@ export class SimulatorImpl {
         }
       }
     }
-    this.initializeVelocities();
+    //this.initializeVelocities();
   }
 
-  initializeVelocities(): void {
+  /*initializeVelocities(): void {
     const center = this.CelestialBodies[0]; // Assuming the first celestial body is the center
     for (let i = 1; i < this.CelestialBodies.length; i++) {
       const body = this.CelestialBodies[i];
@@ -103,7 +103,7 @@ export class SimulatorImpl {
       body.VelocityVector.VX = -orbitalSpeed * (r.y / distance);
       body.VelocityVector.VY = orbitalSpeed * (r.x / distance);
     }
-  }
+  }*/
 
   Simulate(seconds: number): void {
     var calculator: GravityCalculatorImpl = new GravityCalculatorImpl(10);

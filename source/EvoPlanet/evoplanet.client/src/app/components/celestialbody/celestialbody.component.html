@@ -24,17 +24,17 @@
       <h2 style="color:white">Add New Planet</h2>
       <form #planetForm="ngForm" (ngSubmit)="addPlanet(planetForm)">
         <div class="form-group mt-2" style="text-align: left;">
-          <label for="name">Name:</label>
+          <label for="name" style="color: aliceblue">Name:</label>
           <input id="name" [(ngModel)]="newPlanet.Name" name="name" class="form-control" required>
           <div *ngIf="planetForm.submitted && !newPlanet.Name" class="text-danger">Name is required.</div>
         </div>
         <div class="form-group mt-2" style="text-align: left;">
-          <label for="radius" >Radius:</label>
+          <label for="radius" style="color: aliceblue">Radius:</label>
           <input id="radius" [(ngModel)]="newPlanet.Radius" name="radius" type="number" class="form-control" required>
           <div *ngIf="planetForm.submitted && !newPlanet.Radius" class="text-danger">Radius is required.</div>
         </div>
         <div class="form-group mt-2" style="text-align: left;">
-          <label for="mass">Mass:</label>
+          <label for="mass" style="color: aliceblue">Mass:</label>
           <input id="mass" [(ngModel)]="newPlanet.Mass" name="mass" type="number" class="form-control" required>
           <div *ngIf="planetForm.submitted && !newPlanet.Mass" class="text-danger">Mass is required.</div>
         </div>
