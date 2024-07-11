@@ -41,7 +41,7 @@ Create an end-to-end flow of querying a single planet system! See the image belo
 
 ### **Angular**
 
-![Angular logo](angular-logo.png)
+![angular logo](angular_logo.png)
 
 Angular is an open-source, JavaScript framework written in TypeScript. Google maintains it, and its primary purpose is to develop single-page applications. 
   
@@ -296,15 +296,17 @@ Example:
 
 ### **Visual Studio 2022**
   
-![VS2022 logo](VisualStudio2022Logo.png)
+![VS2022 logo](visual-studio-500x500-logo.png)
   
 ### **MongoDB Compass**
 
-![MongoDB Compass](MongoDBCompass.png)
+![MongoDB Compass](mongoDBcompass.jpg)
 
 ### **Postman**
 
+![Ppstman_logo](postman.png)
+
 ### **SwaggerUI**
 
-![SwaggerUI](SwaggerUI.png)
+![SwaggerUI](swagger_ui.png)
   
